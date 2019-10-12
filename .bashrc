@@ -69,6 +69,7 @@ unset color_prompt force_color_prompt
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
+    TERM=xterm-256color
     PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
     ;;
 *)
@@ -109,8 +110,8 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 # Set Vim as default editor.
-export VISUAL=vim
-export EDITOR=vim
+export VISUAL=nvim
+export EDITOR=nvim
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -127,11 +128,21 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# Alias neovim as vim.
+alias vim='nvim'
+
+# Alias trash-cli as rm.
+alias rm='trash'
+
 # Add flutter to path.
 export PATH="$PATH:/opt/flutter/bin"
 
+# Add IntelliJ to path.
+export PATH="$PATH:/opt/intellij/bin"
+
 # Add go to path.
 export PATH="$PATH:/usr/local/go/bin"
+
 
 alias i3lock="i3lock-fancy"
 
