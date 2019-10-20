@@ -1,7 +1,4 @@
-"select powerline font for gvim
-if has('gui_running')
-    set guifont=Fira\ Mono\ for\ Powerline\ 10
-endif
+runtime! debian.vim
 
 call plug#begin('~/.vim/plugged')
 
@@ -24,6 +21,8 @@ let g:deoplete#enable_at_startup = 1
 inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
+let g:nvim_typescript#diagnostics_enable = 1
+
 "ctags configuration
 let g:gutentags_exclude_filetypes = ["node_modules", "*.swp", ".git", ".vscode", ".gitignore", "*min.js", "*min.css"]
 
@@ -33,26 +32,9 @@ let g:airline_solarized_bg='dark'
 
 let g:airline_powerline_fonts = 1
 
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
-
-let g:airline_symbols.space = "\ua0"
-
 let g:airline#extensions#tabline#enabled = 1
 
-let g:airline#extensions#tabline#show_buffers = 0
-
-let g:airline#extensions#hunks#enabled=0
-
-let g:airline#extensions#branch#enabled=1
-
-let g:powerline_pycmd="py3"
-
-set nocompatible
-
 filetype plugin indent on
-syntax on
 
 set number relativenumber
 
@@ -62,12 +44,8 @@ set softtabstop=2
 set shiftwidth=2
 set shiftround
 
-set laststatus=2
-
-set showmode
 set showcmd
 
-set incsearch
 set hlsearch
 
 set ttyfast
@@ -78,6 +56,7 @@ set splitright
 
 set cursorline
 set wrapscan
+set laststatus=2 
 set report=0
 
 

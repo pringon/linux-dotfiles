@@ -3,7 +3,8 @@
 Dotfiles for my ubuntu machine
 
 ## Requirements
-- **terminal** urxvt
+- **terminal** urxvt:
+  - Hack powerline font
 - neovim:
   - plug
   - nvim (npm package)
