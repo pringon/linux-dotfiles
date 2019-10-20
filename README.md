@@ -4,6 +4,7 @@ Dotfiles for my ubuntu machine
 
 ## Requirements
 - **terminal** urxvt
+- trash-cli (replaces rm)
 - neovim:
   - plug
   - nvim (npm package)
