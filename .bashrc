@@ -129,8 +129,8 @@ export NVM_DIR="$HOME/.nvm"
 # Alias neovim as vim.
 alias vim='nvim'
 
-# Alias trash-cli as rm.
-alias rm='trash'
+# Alias trash-cli.
+alias del='trash'
 
 # Add flutter to path.
 export PATH="$PATH:/opt/flutter/bin"
@@ -145,3 +145,5 @@ export PATH="$PATH:/usr/local/go/bin"
 alias i3lock="i3lock-fancy"
 
 source ~/.bash_profile
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
