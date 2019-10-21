@@ -190,7 +190,7 @@ bindsym $mod+r mode "resize"
 mode "power" {
   bindsym l exec "i3lock-fancy", mode "default"
   bindsym e exec "i3-msg exit", mode "default"
-  bindsym s exec "~/Scripts/suspend.sh", mode "default"
+  bindsym s exec "~/Scripts/suspend", mode "default"
   bindsym r exec "reboot", mode "default"
   bindsym Shift+s exec "poweroff", mode "default"
   
@@ -202,9 +202,9 @@ bindsym $mod+p mode "power"
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        font pango: Awesome 8
+        font pango: Hack 8
 	tray_output none
-	status_command ~/.config/i3/bumblebee-status/bumblebee-status -m apt pasink battery vpn cpu memory disk nic datetime -p disk.path=/home nic.exclude="lo,virbr,docker,vboxnet,veth,enp3s0,gpd0" datetime.format="%a %d %b %Y | %I:%M %p" -t solarized
+	status_command ~/.config/i3/bumblebee-status/bumblebee-status -m apt pasink battery vpn cpu memory disk nic datetime -p disk.path=/home nic.exclude="lo,virbr,docker,vboxnet,veth,enp3s0,gpd0" datetime.format="%a %d %b %Y | %I:%M %p" -t solarized-powerline
 }
 
 for_window [class="^.*"] border pixel 2
