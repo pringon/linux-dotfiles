@@ -12,6 +12,7 @@ Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' }
 " For Denite features
 Plug 'Shougo/denite.nvim'
+Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 
 call plug#end()
 
