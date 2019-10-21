@@ -16,6 +16,10 @@ Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 
 call plug#end()
 
+"enable line numbers in nerdtree
+let NERDTreeShowLineNumbers = 1
+autocmd FileType nerdtree setlocal number relativenumber
+
 "enable deoplete at startup
 let g:deoplete#enable_at_startup = 1
 "deoplete tab completion
@@ -28,8 +32,8 @@ let g:nvim_typescript#diagnostics_enable = 1
 let g:gutentags_exclude_filetypes = ["node_modules", "*.swp", ".git", ".vscode", ".gitignore", "*min.js", "*min.css"]
 
 "select airline theme
-let g:airline_theme='solarized'
-let g:airline_solarized_bg='dark'
+let g:airline_theme='wombat'
+"let g:airline_solarized_bg='dark'
 
 let g:airline_powerline_fonts = 1
 
