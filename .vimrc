@@ -5,6 +5,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
@@ -13,6 +14,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' }
 " For Denite features
 Plug 'Shougo/denite.nvim'
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & npm install'  }
 
 call plug#end()
 
@@ -38,6 +40,10 @@ let g:airline_theme='wombat'
 let g:airline_powerline_fonts = 1
 
 let g:airline#extensions#tabline#enabled = 1
+
+"markdown preview settings
+let g:mkdp_auto_start = 1
+let g:mkdp_refresh_slow = 1
 
 filetype plugin indent on
 
@@ -68,7 +74,8 @@ set report=0
 set splitbelow
 set splitright
 
-tnoremap <Esc> <C-\><C-n>
+tnoremap jk <C-\><C-n>
+cnoremap jk <C-c>
 map <Tab> :NERDTreeToggle<CR>
 
 nnoremap <C-J> <C-W><C-J>
