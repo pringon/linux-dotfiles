@@ -15,6 +15,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' }
 Plug 'Shougo/denite.nvim'
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & npm install'  }
+Plug 'hashivim/vim-terraform'
 
 call plug#end()
 
