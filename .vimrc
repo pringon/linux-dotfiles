@@ -14,7 +14,6 @@ Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' }
 " For Denite features
 Plug 'Shougo/denite.nvim'
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & npm install'  }
 Plug 'hashivim/vim-terraform'
 
 call plug#end()
@@ -36,15 +35,12 @@ let g:gutentags_exclude_filetypes = ["node_modules", "*.swp", ".git", ".vscode",
 
 "select airline theme
 let g:airline_theme='wombat'
-"let g:airline_solarized_bg='dark'
-
 let g:airline_powerline_fonts = 1
-
 let g:airline#extensions#tabline#enabled = 1
 
-"markdown preview settings
-let g:mkdp_auto_start = 1
-let g:mkdp_refresh_slow = 1
+"prettier settings
+let g:prettier#autoformat = 0
+autocmd BufWritePre,InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html Prettier
 
 filetype plugin indent on
 
