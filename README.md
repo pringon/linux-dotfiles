@@ -3,6 +3,7 @@
 Dotfiles for my ubuntu machine
 
 ## Requirements
+
 - **terminal** urxvt:
   - Hack powerline font
 - neovim:
@@ -18,4 +19,9 @@ Dotfiles for my ubuntu machine
   - python-netifaces
 
 ## Optional
+
 - trash-cli (aliased to del)
+
+## Notes
+
+- `speedswapper` swaps your Caps Lock and Escape key. After moving it to the home directory you must run `xmodmap ~/.speedswapper`.
