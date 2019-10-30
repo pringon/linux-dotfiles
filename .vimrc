@@ -24,9 +24,6 @@ autocmd FileType nerdtree setlocal number relativenumber
 
 "enable deoplete at startup
 let g:deoplete#enable_at_startup = 1
-"deoplete tab completion
-inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 
 let g:nvim_typescript#diagnostics_enable = 1
 
@@ -40,7 +37,7 @@ let g:airline#extensions#tabline#enabled = 1
 
 "prettier settings
 let g:prettier#autoformat = 0
-autocmd BufWritePre,InsertLeave *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html Prettier
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html Prettier
 
 filetype plugin indent on
 
@@ -71,11 +68,17 @@ set report=0
 set splitbelow
 set splitright
 
-tnoremap jk <C-\><C-n>
-cnoremap jk <C-c>
 map <Tab> :NERDTreeToggle<CR>
 
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+inoremap " ""<left>
+inoremap ' ''<left>
+inoremap ( ()<left>
+inoremap [ []<left>
+inoremap { {}<left>
+inoremap {<CR> {<CR>}<ESC>O
+inoremap {;<CR> {<CR>};<ESC>O
