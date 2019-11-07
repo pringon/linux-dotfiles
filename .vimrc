@@ -8,7 +8,6 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
-Plug 'pangloss/vim-javascript'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 " For async completion
@@ -23,8 +22,6 @@ call plug#end()
 "enable line numbers in nerdtree
 let NERDTreeShowLineNumbers = 1
 autocmd FileType nerdtree setlocal number relativenumber
-
-let g:javascript_plugin_jsdoc = 1
 
 "enable deoplete at startup
 let g:deoplete#enable_at_startup = 1
