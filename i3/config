@@ -125,8 +125,8 @@ bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
 # Define names for workspaces.
-set $ws1 "1: Main Browser"
-set $ws2 "2: Main Editor"
+set $ws1 "1: Main Editor"
+set $ws2 "2: Main Browser"
 set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
