@@ -46,6 +46,9 @@ syntax on
 set t_Co=256
 colorscheme monokai
 
+"json highlighting
+autocmd BufNewFile,BufRead *.json set ft=javascript
+
 set number relativenumber
 
 set autoindent
