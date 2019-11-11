@@ -26,11 +26,8 @@ gaps outer 5
 # set mod key
 set $mod Mod4
 
-# swap escape and caps lock keys
-exec --no-startup-id setxkbmap -option caps:swapescape
-
 # set us keyboard layout
-exec --no-startup-id setxkbmap us
+exec --no-startup-id setxkbmap us -option caps:swapescape
 
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient
