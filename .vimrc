@@ -1,7 +1,7 @@
 call plug#begin('~/.vim/plugged')
 
-Plug 'takac/vim-hardtime'
 Plug 'crusoexia/vim-monokai'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
@@ -18,8 +18,6 @@ Plug 'hashivim/vim-terraform'
 
 call plug#end()
 
-"enable hard time
-let g:hardtime_default_on = 1
 
 "enable line numbers in nerdtree
 let NERDTreeShowLineNumbers = 1
