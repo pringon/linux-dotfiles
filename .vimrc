@@ -72,6 +72,8 @@ set wrapscan
 set laststatus=2 
 set report=0
 
+" mouse scroll
+set mouse=a
 
 set splitbelow
 set splitright
