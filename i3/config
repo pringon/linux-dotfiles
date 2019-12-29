@@ -52,7 +52,7 @@ exec --no-startup-id compton
 exec --no-startup-id nitrogen --restore
 
 # start rofi (a program launcher)
-bindsym $mod+d exec "rofi -combi-modi window,drun,run -show combi -modi combi -sidebar-mode -terminal gnome-terminal -color-window '#000000, #000000, #000000' -color-normal '#000000, #b3e774, #000000, #b3e774, #000000' -color-active '#000000, #b3e774, #000000, #b3e774, #000000' -color-urgent '#000000, #b3e774, #000000, #b3e774, #000000'"
+bindsym $mod+d exec --no-startup-id sleep 0.1 && rofi -show combi -config $HOME/.config/i3/rofi.conf 
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -192,7 +192,7 @@ bindsym $mod+r mode "resize"
 
 # Power options mode
 mode "power" {
-  bindsym l exec "i3lock-fancy", mode "default"
+  bindsym l exec "~/Scripts/lock", mode "default"
   bindsym e exec "i3-msg exit", mode "default"
   bindsym s exec "~/Scripts/suspend", mode "default"
   bindsym r exec "reboot", mode "default"
@@ -208,7 +208,7 @@ bindsym $mod+p mode "power"
 bar {
         font pango: Hack 8
 	tray_output none
-	status_command ~/.config/i3/bumblebee-status/bumblebee-status -m apt pasink battery vpn cpu memory disk nic datetime -p disk.path=/home nic.exclude="lo,virbr,docker,vboxnet,veth,enp3s0,gpd0,br-c9f48afbb774" datetime.format="%a %d %b %Y | %I:%M %p" -t solarized-powerline
+	status_command ~/.config/i3/bumblebee-status/bumblebee-status -m pasink battery vpn cpu memory disk nic datetime -p disk.path=/home nic.exclude="lo,virbr,docker,vboxnet,veth,enp3s0,gpd0,br-c9f48afbb774" datetime.format="%a %d %b %Y | %I:%M %p" -t solarized-powerline
 }
 
 for_window [class="^.*"] border pixel 2

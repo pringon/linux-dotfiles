@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Bash config
+ln -rs ~/dotfiles/bash/bash_profile ~/.bash_profile
+ln -rs ~/dotfiles/bash/bashrc ~/.bashrc
+ln -rs ~/dotfiles/bash/inputrc ~/.inputrc
+
+# Urxvt config
+ln -rs ~/dotfiles/urxvt/Xdefaults ~/.Xdefaults
+
+# Neovim config
+ln -rs ~/dotfiles/vim/vimrc ~/.vimrc
+
+# I3 config
+ln -rs ~/dotfiles/i3 ~/.config/i3
