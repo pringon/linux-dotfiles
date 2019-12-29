@@ -4,7 +4,7 @@ Dotfiles for my ubuntu machine
 
 # Usage
 
-- In order to create symbolic links to your dotfiles just run: `./make-links'
+- In order to create symbolic links to your dotfiles just run: `./make-links`
 - Make sure to copy the `Scripts` and and `pictures` directories to your home directory otherwise locking and suspending functionality will not work correctly.
 
 ## Requirements
