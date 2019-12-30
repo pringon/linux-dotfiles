@@ -1,5 +1,10 @@
 call plug#begin('~/.vim/plugged')
 
+let rplugin = {}
+function! rplugin.do(info)
+  UpdateRemotePlugins
+endfunction
+
 Plug 'crusoexia/vim-monokai'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'vim-airline/vim-airline'
@@ -10,7 +15,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 " For async completion
-Plug 'Shougo/deoplete.nvim', { 'do': 'UpdateRemotePlugins' }
+Plug 'Shougo/deoplete.nvim', rplugin
 " For Denite features
 Plug 'Shougo/denite.nvim'
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
@@ -21,7 +26,7 @@ call plug#end()
 
 "enable line numbers in nerdtree
 let NERDTreeShowLineNumbers = 1
-autocmd FileType nerdtree setlocal number relativenumber
+autocmd FileType nerdtree setlocal number
 
 "enable deoplete at startup
 let g:deoplete#enable_at_startup = 1
@@ -49,7 +54,7 @@ colorscheme monokai
 "json highlighting
 autocmd BufNewFile,BufRead *.json set ft=javascript
 
-set number relativenumber
+set number
 
 set autoindent
 set expandtab
