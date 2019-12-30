@@ -14,6 +14,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'HerringtonDarkholme/yats.vim'
+Plug 'ludovicchabant/vim-gutentags'
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 " For async completion
 Plug 'Shougo/deoplete.nvim', rplugin
@@ -28,6 +29,14 @@ call plug#end()
 "enable line numbers in nerdtree
 let NERDTreeShowLineNumbers = 1
 autocmd FileType nerdtree setlocal number
+
+"ignore patters from gitignore when fuzzy searching with fzf
+let $FZF_DEFAULT_COMMAND = 'git ls-files'
+
+"ignore patters from gitignore when generating tags
+if executable('git')
+  let g:gutentags_file_list_command = 'git ls-files'
+endif
 
 "enable deoplete at startup
 let g:deoplete#enable_at_startup = 1

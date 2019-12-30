@@ -15,5 +15,8 @@ ln -rs ~/dotfiles/vim/nvim ~/.config
 # I3 config
 ln -rs ~/dotfiles/i3 ~/.config
 
+# Ctags config
+ln -rs ~/dotfiles/ctags/ctags ~/.ctags
+
 # Qutebrowser config
 ln -rs ~/dotfiles/qutebrowser ~/.config
