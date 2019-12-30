@@ -34,9 +34,6 @@ let g:deoplete#enable_at_startup = 1
 
 let g:nvim_typescript#diagnostics_enable = 1
 
-"ctags configuration
-let g:gutentags_exclude_filetypes = ["node_modules", "*.swp", ".git", ".vscode", ".gitignore", "*min.js", "*min.css"]
-
 "select airline theme
 let g:airline_theme='wombat'
 let g:airline_powerline_fonts = 1
