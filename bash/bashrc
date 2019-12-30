@@ -148,3 +148,7 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 source /usr/share/git/completion/git-prompt.sh
+
+# fnm
+export PATH=/home/pringon/.fnm:$PATH
+eval "`fnm env --multi`"
