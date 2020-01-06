@@ -143,7 +143,9 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-source /usr/share/git/completion/git-prompt.sh
+# Enable git prompt features
+# source /usr/share/git/completion/git-prompt.sh
+source /etc/bash_completion.d/git-prompt
 
 # fnm
 export PATH=~/.fnm:$PATH
