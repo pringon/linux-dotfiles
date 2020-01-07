@@ -74,8 +74,11 @@ syntax on
 set t_Co=256
 colorscheme monokai
 
+" ejs highlighting
+autocmd BufNewFile,BufRead *.ejs  set filetype=html
+
 "json highlighting
-autocmd BufNewFile,BufRead *.json set ft=javascript
+autocmd BufNewFile,BufRead *.json set filetype=javascript
 
 set number relativenumber
 
