@@ -23,7 +23,8 @@ Plug 'Shougo/deoplete.nvim', rplugin
 Plug 'Shougo/denite.nvim'
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 Plug 'hashivim/vim-terraform'
-
+" Requires the companion mini-server (npm i -g instand-markdown-d)
+Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
 call plug#end()
 
 
@@ -81,6 +82,8 @@ autocmd BufNewFile,BufRead *.ejs  set filetype=html
 autocmd BufNewFile,BufRead *.json set filetype=javascript
 
 set number relativenumber
+
+set ignorecase smartcase
 
 set autoindent
 set expandtab
