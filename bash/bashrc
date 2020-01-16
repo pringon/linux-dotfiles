@@ -141,6 +141,9 @@ export PATH="$PATH:/opt/intellij/bin"
 # Add go to path.
 export PATH="$PATH:/usr/local/go/bin"
 
+# Add ruby to path.
+export PATH="$PATH:/home/pringon/.gem/ruby/2.7.0/bin"
+
 source ~/.bash_profile
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
