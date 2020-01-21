@@ -119,12 +119,9 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# Alias pip3.
+alias netflix='chromium --url=https://netflix.com'
 alias pip='pip3'
-
-# Alias neovim as vim.
 alias vim='nvim'
-
 # Alias trash-cli.
 alias del='trash'
 
@@ -139,6 +136,7 @@ export PATH="$PATH:/usr/local/go/bin"
 
 # Add ruby to path.
 export PATH="$PATH:/home/pringon/.gem/ruby/2.7.0/bin"
+
 
 source ~/.bash_profile
 
