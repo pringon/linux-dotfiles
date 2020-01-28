@@ -79,9 +79,16 @@ export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-# Enable git prompt features
-# source /usr/share/git/completion/git-prompt.sh
-source /etc/bash_completion.d/git-prompt
+if [ -r /usr/share/git/git-prompt.sh ]; then
+    # Arch Linux
+    source /usr/share/git/git-prompt.sh
+elif [ -r /usr/share/git-core/contrib/completion/git-prompt.sh ]; then
+    # Fedora
+    source /usr/share/git-core/contrib/completion/git-prompt.sh
+elif [ -r /etc/bash_completion.d/git-prompt ]; then
+    # Ubuntu
+    source /etc/bash_completion.d/git-prompt
+fi
 
 # fnm
 export PATH=~/.fnm:$PATH
