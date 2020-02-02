@@ -14,6 +14,7 @@ shopt -s histappend
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
 HISTFILESIZE=2000
+export HISTCONTROL=ignoredups
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -73,8 +74,6 @@ export PATH="$PATH:/usr/local/go/bin"
 export PATH="$PATH:/home/pringon/.gem/ruby/2.7.0/bin"
 
 
-source ~/.bash_profile
-
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
@@ -89,6 +88,8 @@ elif [ -r /etc/bash_completion.d/git-prompt ]; then
     # Ubuntu
     source /etc/bash_completion.d/git-prompt
 fi
+
+PS1='\[\033[0;32m\]\[\033[0m\033[0;32m\]\u@\h \[\033[0;36m\]\w\[\033[0;32m\]$(__git_ps1)\n\[\033[0;32m\]└─\[\033[0m\033[0;32m\] \$\[\033[0m\033[0;32m\] ▶\[\033[0m\] '
 
 # fnm
 export PATH=~/.fnm:$PATH
