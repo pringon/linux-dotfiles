@@ -27,7 +27,7 @@ gaps outer 5
 set $mod Mod4
 
 # set us keyboard layout
-exec --no-startup-id setxkbmap us -option caps:swapescape
+exec --no-startup-id setxkbmap uk -option caps:swapescape
 
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient
@@ -128,7 +128,7 @@ set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
-set $ws7 "7"
+set $ws7 "7: VM"
 set $ws8 "8: Email"
 set $ws9 "9: Slack"
 set $ws10 "10: Music"
