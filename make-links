@@ -5,6 +5,9 @@ ln -rs ~/dotfiles/bash/bash_profile ~/.bash_profile
 ln -rs ~/dotfiles/bash/bashrc ~/.bashrc
 ln -rs ~/dotfiles/bash/inputrc ~/.inputrc
 
+# Tmux config
+ln -rs ~/dotfiles/tmux/tmux.conf ~/.tmux.conf
+
 # Urxvt config
 ln -rs ~/dotfiles/urxvt/Xdefaults ~/.Xdefaults
 
