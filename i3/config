@@ -134,6 +134,7 @@ set $ws9 "9: Slack"
 set $ws10 "10: Music"
 
 assign [class="Code"] $ws1
+assign [class="qutebrowser"] $ws2
 assign [class="Slack"] $ws9
 for_window [class="Spotify"] move to workspace $ws10
 
