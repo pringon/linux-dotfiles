@@ -65,9 +65,15 @@ let g:airline_theme='wombat'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
-"prettier settings
+""""""""""""""""""""""
+" FORMATERS          "
+""""""""""""""""""""""
+
+" gofmt run on save
+au BufWritePost *.go !gofmt -w %
+" prettier run on save
 let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html Prettier
+autocmd BufWritePost *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html Prettier
 
 filetype plugin indent on
 
