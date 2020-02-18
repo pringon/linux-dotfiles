@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Necessary binaries
+ln -rs ~/dotfiles/Scripts ~/Scripts
+
 # Bash config
 ln -rs ~/dotfiles/bash/bash_profile ~/.bash_profile
 ln -rs ~/dotfiles/bash/bashrc ~/.bashrc
