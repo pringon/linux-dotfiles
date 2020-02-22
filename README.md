@@ -21,3 +21,4 @@ Dotfiles for my ubuntu machine
   - python-tk
   - python-psutil
   - python-netifaces
+- [Roficlip](https://github.com/gilbertw1/roficlip)
