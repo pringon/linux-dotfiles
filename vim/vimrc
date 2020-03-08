@@ -12,17 +12,14 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
 Plug 'HerringtonDarkholme/yats.vim'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'majutsushi/tagbar'
 Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 " For async completion
 Plug 'Shougo/deoplete.nvim', rplugin
 " For Denite features
 Plug 'Shougo/denite.nvim'
 Plug 'prettier/vim-prettier', { 'do': 'npm install' }
-Plug 'hashivim/vim-terraform'
 " Requires the companion mini-server (npm i -g instand-markdown-d)
 Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
 call plug#end()
@@ -39,21 +36,6 @@ let $FZF_DEFAULT_COMMAND = 'git ls-files'
 if executable('git')
   let g:gutentags_file_list_command = 'git ls-files'
 endif
-
-" add typescript tagbar configuration
-let g:tagbar_type_typescript = {
-  \ 'ctagstype': 'typescript',
-  \ 'kinds': [
-    \ 'c:classes',
-    \ 'n:modules',
-    \ 'f:functions',
-    \ 'v:variables',
-    \ 'v:varlambdas',
-    \ 'm:members',
-    \ 'i:interfaces',
-    \ 'e:enums',
-  \ ]
-\ }
 
 "enable deoplete at startup
 let g:deoplete#enable_at_startup = 1
@@ -120,9 +102,6 @@ set splitbelow
 set splitright
 
 map <Tab> :NERDTreeToggle<CR>
-
-" tagbar mapping
-nmap ,b :TagbarToggle<CR>
 
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
