@@ -8,20 +8,11 @@ endfunction
 Plug 'crusoexia/vim-monokai'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
-Plug 'tpope/vim-commentary'
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 " For async completion
 Plug 'Shougo/deoplete.nvim', rplugin
 " For Denite features
 Plug 'Shougo/denite.nvim'
-Plug 'prettier/vim-prettier', { 'do': 'npm install' }
-" Requires the companion mini-server (npm i -g instand-markdown-d)
-Plug 'suan/vim-instant-markdown', {'for': 'markdown'}
 call plug#end()
 
 
@@ -32,30 +23,8 @@ autocmd FileType nerdtree setlocal number
 "ignore patters from gitignore when fuzzy searching with fzf
 let $FZF_DEFAULT_COMMAND = 'git ls-files'
 
-"ignore patters from gitignore when generating tags
-if executable('git')
-  let g:gutentags_file_list_command = 'git ls-files'
-endif
-
 "enable deoplete at startup
 let g:deoplete#enable_at_startup = 1
-
-let g:nvim_typescript#diagnostics_enable = 1
-
-"select airline theme
-let g:airline_theme='wombat'
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-
-""""""""""""""""""""""
-" FORMATERS          "
-""""""""""""""""""""""
-
-" gofmt run on save
-au BufWritePost *.go !gofmt -w %
-" prettier run on save
-let g:prettier#autoformat = 0
-autocmd BufWritePost *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue,*.yaml,*.html Prettier
 
 filetype plugin indent on
 
@@ -63,12 +32,6 @@ syntax on
 set t_Co=256
 colorscheme monokai
 hi Normal guibg=NONE ctermbg=NONE
-
-" ejs highlighting
-autocmd BufNewFile,BufRead *.ejs  set filetype=html
-
-"json highlighting
-autocmd BufNewFile,BufRead *.json set filetype=javascript
 
 set number relativenumber
 

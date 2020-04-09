@@ -73,6 +73,8 @@ alias vim='nvim'
 export PATH="$PATH:~/.local/bin"
 # Add go to path.
 export PATH="$PATH:/usr/local/go/bin"
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 # Add ruby to path.
 export PATH="$PATH:/home/pringon/.gem/ruby/2.7.0/bin"
 
