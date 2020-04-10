@@ -1,5 +1,6 @@
 # Packages to install
 
+- stow
 - imagemagick
 - scrot
 - i3-gaps
