@@ -9,7 +9,7 @@ Drop dotfiles using `stow .`
 ## Requirements
 
 - **terminal** urxvt:
-  - Inconsolata powerline font
+  - devicons: awesome-terminal-fonts
 - neovim:
   - plug
   - nvim (npm package)
