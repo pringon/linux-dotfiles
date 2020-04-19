@@ -42,7 +42,7 @@ URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
 
 URxvt.intensityStyles:	false
 URxvt.background:       [70]#000000
-URxvt.font:         	xft:Inconsolata-Regular:pixelsize=20
+URxvt.font:         	xft:devicons:pixelsize=14
 URxvt.depth:		32
 URxvt.scrollBar:	false
 URxvt.cursorColor:	white
