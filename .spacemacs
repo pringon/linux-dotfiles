@@ -480,6 +480,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+  (setq org-startup-truncated nil)
   (add-hook 'org-mode 'visual-line-mode)
   (setq org-agenda-files '("~/my-life"))
   (setq org-agenda-custom-commands
