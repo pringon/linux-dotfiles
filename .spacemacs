@@ -32,26 +32,25 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
-     ;; `M-m f e R' (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
+   '(python
+     markdown
+     yaml
+     terraform
      auto-completion
      ;; better-defaults
      emacs-lisp
      ;; git
      helm
-     ;; lsp
-     ;; markdown
-     multiple-cursors
-     org
+     lsp
+     markdown
+     ;; multiple-cursors
+     (org :variables
+          org-enable-github-support t)
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
      ;; spell-checking
-     ;; syntax-checking
+     syntax-checking
      ;; version-control
      treemacs
      )
@@ -480,13 +479,30 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  (setq org-startup-truncated nil)
-  (add-hook 'org-mode 'visual-line-mode)
-  (setq org-agenda-files '("~/my-life"))
+  ;; This recursively parses the given org-agenda directories
+  ;; and adds any file that matches org-agenda-file-regexp to the list of agenda files
+  ;; Solution found in the comments of: https://www.reddit.com/r/orgmode/comments/6q6cdk/adding_files_to_the_agenda_list_recursively/
+  (setq org-agenda-files
+        (apply 'append
+          (mapcar
+            (lambda (directory)
+              (directory-files-recursively
+              directory org-agenda-file-regexp))
+            '("~/my-life/org"))))
   (setq org-agenda-custom-commands
     '(("c" "Simple agenda view"
       ((agenda "")
        (alltodo "")))))
+  ;; Configure custom capture templates
+  (setq org-capture-templates
+        `(;; Note the backtick here, it's required so that the defvar based tempaltes will work!
+          ;;http://comments.gmane.org/gmane.emacs.orgmode/106890
+
+          ("a" "Action" entry (file+headline "~/my-life/org/inbox.org" "Actions")
+           "** TODO %^{Task Description}\n" :prepend t)
+          ("t" "Thought" entry (file+headline "~/my-life/org/inbox.org" "Thoughts")
+           "** TODO %^{Task Description}\n" :prepend t)
+          ))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -501,9 +517,12 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(org-agenda-files
+   (quote
+    ("/home/pringon/my-life/org/inbox.org" "/home/pringon/my-life/org/systematic-improvement.org")))
  '(package-selected-packages
    (quote
-    (yasnippet-snippets org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-cliplink org-brain htmlize helm-org-rifle helm-org helm-company helm-c-yasnippet gnuplot fuzzy evil-org company auto-yasnippet yasnippet ac-ispell auto-complete ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil treemacs ht pfuture toc-org symon symbol-overlay string-inflection spaceline-all-the-icons all-the-icons memoize spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode password-generator paradox spinner overseer org-bullets open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile projectile helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck pkg-info epl let-alist flycheck-elsa flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state iedit evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens smartparens paredit evil-args evil-anzu anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump f dash s devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy helm-core popup which-key use-package pcre2el org-plus-contrib hydra lv hybrid-mode font-lock+ evil goto-chg undo-tree dotenv-mode diminish bind-map bind-key async))))
+    (omnisharp csharp-mode toml-mode racer flycheck-rust cargo rust-mode ox-gfm stickyfunc-enhance helm-gtags helm-cscope xcscope ggtags dap-mode bui counsel-gtags counsel swiper ivy vmd-mode mmm-mode markdown-toc gh-md yapfify web-beautify utop tuareg caml tide typescript-mode seeing-is-believing rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe rbenv rake pytest pyenv-mode py-isort prettier-js pippel pipenv pyvenv pip-requirements ocp-indent ob-elixir nodejs-repl mvn minitest meghanada maven-test-mode lsp-ui lsp-treemacs lsp-python-ms lsp-java livid-mode skewer-mode simple-httpd live-py-mode json-navigator hierarchy json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc importmagic epc ctable concurrent deferred helm-pydoc helm-lsp lsp-mode markdown-mode groovy-mode groovy-imports pcache gradle-mode git-gutter-fringe+ fringe-helper git-gutter+ git-commit with-editor transient flycheck-pos-tip pos-tip flycheck-ocaml merlin flycheck-mix flycheck-credo emojify emoji-cheat-sheet-plus dune cython-mode company-tern dash-functional tern company-emoji company-anaconda chruby bundler inf-ruby browse-at-remote blacken anaconda-mode pythonic alchemist elixir-mode company-terraform terraform-mode hcl-mode yaml-mode yasnippet-snippets org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-cliplink org-brain htmlize helm-org-rifle helm-org helm-company helm-c-yasnippet gnuplot fuzzy evil-org company auto-yasnippet yasnippet ac-ispell auto-complete ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil treemacs ht pfuture toc-org symon symbol-overlay string-inflection spaceline-all-the-icons all-the-icons memoize spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode password-generator paradox spinner overseer org-bullets open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile projectile helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck pkg-info epl let-alist flycheck-elsa flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state iedit evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens smartparens paredit evil-args evil-anzu anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump f dash s devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy helm-core popup which-key use-package pcre2el org-plus-contrib hydra lv hybrid-mode font-lock+ evil goto-chg undo-tree dotenv-mode diminish bind-map bind-key async))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -209,7 +209,7 @@ bindsym $mod+p mode "power"
 bar {
         font pango: Hack 8
 	tray_output none
-	status_command ~/.config/i3/bumblebee-status/bumblebee-status -m pasink battery vpn cpu memory disk nic datetime -p disk.path=/home nic.exclude="lo,virbr,docker,vboxnet,veth,enp3s0,gpd0,br-c9f48afbb774" datetime.format="%a %d %b %Y | %I:%M %p" -t solarized-powerline
+	status_command ~/.config/i3/bumblebee-status/bumblebee-status -m pasink battery vpn cpu memory disk nic datetime -p disk.path=/home nic.exclude="lo,enp3s0,virbr,docker,vboxnet,veth,gpd0,br-c9f48afbb774" datetime.format="%a %d %b %Y | %I:%M %p" -t solarized-powerline
 }
 
 for_window [class="^.*"] border pixel 2
