@@ -41,7 +41,7 @@ This function should only modify configuration layer settings."
      emacs-lisp
      ;; git
      helm
-     lsp
+     ;; lsp
      markdown
      ;; multiple-cursors
      (org :variables

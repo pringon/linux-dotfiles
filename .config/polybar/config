@@ -2,11 +2,12 @@
 monitor = ${env:MONITOR:}
 background = #415f78
 bottom = true
-height = 15
-font-0 = "Hack:size=10;3"
+height = 20
+font-0 = "Hack:size=13;4"
 font-1 = "Noto Color Emoji:size=10:style=Regular:scale=13;3"
 modules-left = i3
-modules-right = alsa network battery cpu memory filesystem date
+modules-center = alsa battery date
+modules-right = network cpu memory filesystem
 tray-position = right
 separator = |
 separator-foreground = #db03fc
@@ -19,7 +20,7 @@ label-muted = 🔇%percentage%%
 [module/network]
 type = internal/network
 interface = wlp2s0
-label-connected = 📶%local_ip%|🔽%downspeed%|🔼%upspeed%
+label-connected = 📶%local_ip%
 label-disconnected = Wireless:NONE
 label-disconnected-background = #e60053
 
