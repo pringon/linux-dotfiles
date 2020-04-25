@@ -1,0 +1,7 @@
+[options]
+font = Noto Color Emoji 10
+font = Hack 10
+
+[colors]
+background = rgba(27, 25, 24, 0.8)
+foreground = #00cc00
