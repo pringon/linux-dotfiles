@@ -194,8 +194,8 @@ bindsym $mod+r mode "resize"
 
 # Power options mode
 mode "power" {
-  bindsym l exec "~/Scripts/lock", mode "default"
-  bindsym s exec "~/Scripts/suspend", mode "default"
+  bindsym l exec "~/.config/i3/scripts/lock.sh", mode "default"
+  bindsym s exec "~/.config/i3/scripts/suspend.sh", mode "default"
   bindsym r exec "reboot", mode "default"
   bindsym Shift+s exec "poweroff", mode "default"
   

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 revert() {
   rm /tmp/*screen*.png
   xset dpms 0 0 0
