@@ -28,6 +28,7 @@ set $mod Mod4
 
 # set us keyboard layout
 exec --no-startup-id setxkbmap us -option caps:swapescape
+exec_always killall polybar; sleep 1; polybar -c ~/.config/polybar/config statusbar -r
 
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient
@@ -53,8 +54,6 @@ exec --no-startup-id nitrogen --restore
 
 # start rofi (a program launcher)
 bindsym $mod+d exec --no-startup-id sleep 0.1 && rofi -show combi -config $HOME/.config/i3/rofi.conf 
-# start roficlip
-bindsym $mod+c exec --no-startup-id "~/Scripts/roficlip"
 
 # change focus
 bindsym $mod+$left focus left
@@ -196,7 +195,6 @@ bindsym $mod+r mode "resize"
 # Power options mode
 mode "power" {
   bindsym l exec "~/Scripts/lock", mode "default"
-  bindsym e exec "i3-msg exit", mode "default"
   bindsym s exec "~/Scripts/suspend", mode "default"
   bindsym r exec "reboot", mode "default"
   bindsym Shift+s exec "poweroff", mode "default"
@@ -205,11 +203,5 @@ mode "power" {
   bindsym Return mode "default"
 }
 bindsym $mod+p mode "power"
-
-bar {
-        font pango: Hack 8
-	tray_output none
-	status_command ~/.config/i3/bumblebee-status/bumblebee-status -m pasink battery vpn cpu memory disk nic datetime -p disk.path=/home nic.exclude="lo,enp3s0,virbr,docker,vboxnet,veth,gpd0,br-c9f48afbb774" datetime.format="%a %d %b %Y | %I:%M %p" -t solarized-powerline
-}
 
 for_window [class="^.*"] border pixel 2

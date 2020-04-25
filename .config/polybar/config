@@ -1,0 +1,61 @@
+[bar/statusbar]
+bottom = true
+height = 15
+font-0 = Hack:size=10;3
+modules-left = i3
+modules-right = alsa network battery cpu memory date
+tray-position = right
+separator = |
+separator-foreground = #db03fc
+
+[module/alsa]
+type = internal/alsa
+format-volume = Volume:<label-volume>
+label-muted = Volume:%percentage%%(M)
+
+[module/network]
+type = internal/network
+interface = wlp2s0
+label-connected = Wireless:%local_ip%(Down:%downspeed%,Up:%upspeed%)
+label-disconnected = Wireless:NONE
+label-disconnected-background = #e60053
+
+[module/battery]
+type = internal/battery
+label-charging = Juicing:%percentage%%
+label-discharging = Battery:%percentage%%
+
+[module/cpu]
+type = internal/cpu
+label = CPU:%percentage%%
+
+[module/memory]
+type = internal/memory
+label = MEM:%percentage_used%%(%gb_used%/%gb_total%)
+
+[module/date]
+type = internal/date
+; Seconds to sleep before updates
+interval = 1.0
+; Show current date and time
+date = %H:%M:%S %Y-%m-%d%
+
+[module/i3]
+type = internal/i3
+; Only show workspaces present on this output
+pin-workspaces = true
+; Do not allow scrolling or clicking on the bar
+; to switch workspaces
+enable-click = false
+enable-scroll = false
+; i3 modes style
+label-mode = %mode%
+label-mode-background = #e60053
+; Focused workspace style
+label-focused = %name%
+label-focused-foreground = #ffffff
+label-focused-background = #3f3f3f
+label-focused-underline = #fba922
+; Separator in between workspaces
+label-separator = |
+label-separator-foreground = #db03fc
