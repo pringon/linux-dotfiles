@@ -2,7 +2,8 @@
 monitor = ${env:MONITOR:}
 bottom = true
 height = 15
-font-0 = Hack:size=10;3
+font-0 = "Hack:size=10;3"
+font-1 = "Noto Color Emoji:size=10:style=Regular:scale=13;3"
 modules-left = i3
 modules-right = alsa network battery cpu memory date
 tray-position = right
@@ -11,28 +12,28 @@ separator-foreground = #db03fc
 
 [module/alsa]
 type = internal/alsa
-format-volume = Volume:<label-volume>
-label-muted = Volume:%percentage%%(M)
+format-volume = 🔊<label-volume>
+label-muted = 🔇%percentage%%
 
 [module/network]
 type = internal/network
 interface = wlp2s0
-label-connected = Wireless:%local_ip%(Down:%downspeed%,Up:%upspeed%)
+label-connected = 📶%local_ip%|🔽%downspeed%|🔼%upspeed%
 label-disconnected = Wireless:NONE
 label-disconnected-background = #e60053
 
 [module/battery]
 type = internal/battery
-label-charging = Juicing:%percentage%%
-label-discharging = Battery:%percentage%%
+label-charging = 🔌%percentage%%
+label-discharging = 🔋%percentage%%
 
 [module/cpu]
 type = internal/cpu
-label = CPU:%percentage%%
+label = ⚙️%percentage%%
 
 [module/memory]
 type = internal/memory
-label = MEM:%percentage_used%%(%gb_used%/%gb_total%)
+label = 💾%percentage_used%%(%gb_used%/%gb_total%)
 
 [module/date]
 type = internal/date
