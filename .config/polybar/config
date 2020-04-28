@@ -57,7 +57,7 @@ type = internal/i3
 pin-workspaces = true
 ; Do not allow scrolling or clicking on the bar
 ; to switch workspaces
-enable-click = false
+enable-click = true
 enable-scroll = false
 ; i3 modes style
 label-mode = %mode%

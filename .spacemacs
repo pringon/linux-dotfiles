@@ -487,7 +487,7 @@ before packages are loaded."
           (mapcar
             (lambda (directory)
               (directory-files-recursively
-              directory org-agenda-file-regexp))
+              directory ".*\\.org"))
             '("~/my-life/org"))))
   (setq org-agenda-custom-commands
     '(("c" "Simple agenda view"
