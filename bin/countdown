@@ -5,4 +5,11 @@ case $1 in
     *) duration=$(( "$1" * 60 )) ;;
 esac
 
-sleep $duration && espeak "break time" 2>/dev/null
+while [ $duration -gt 0 ] 
+do
+  echo "$(( duration / 60)):$(( duration % 60))"
+  : $(( duration = duration - 1))
+  sleep 1
+done
+
+mpv ~/bin/bell.mp3

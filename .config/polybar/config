@@ -40,7 +40,7 @@ label = 💾%percentage_used%%(%gb_used%/%gb_total%)
 [module/filesystem]
 type = internal/fs
 mount-0 = /home
-label-mounted = 💽%percentage_used%%(%free%/%total%)
+label-mounted = 💽%percentage_used%%(%used%/%total%)
 fixed-values = true
 spacing = 1
 
