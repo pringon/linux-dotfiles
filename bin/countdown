@@ -1,0 +1,8 @@
+#!/bin/sh
+
+case $1 in
+    ''|*[!0-9]*) duration=60 ;;
+    *) duration=$(( "$1" * 60 )) ;;
+esac
+
+sleep $duration && espeak "break time" 2>/dev/null
