@@ -32,7 +32,10 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(python
+   '(html
+     rust
+     javascript
+     python
      markdown
      yaml
      terraform
@@ -40,12 +43,13 @@ This function should only modify configuration layer settings."
      ;; better-defaults
      emacs-lisp
      ;; git
-     helm
+     ivy
      ;; lsp
      markdown
      ;; multiple-cursors
      (org :variables
           org-enable-github-support t)
+     finance
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
@@ -479,20 +483,27 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
-  ;; This recursively parses the given org-agenda directories
-  ;; and adds any file that matches org-agenda-file-regexp to the list of agenda files
-  ;; Solution found in the comments of: https://www.reddit.com/r/orgmode/comments/6q6cdk/adding_files_to_the_agenda_list_recursively/
-  (setq org-agenda-files
-        (apply 'append
-          (mapcar
-            (lambda (directory)
-              (directory-files-recursively
-              directory ".*\\.org"))
-            '("~/my-life/org"))))
-  (setq org-agenda-custom-commands
-    '(("c" "Simple agenda view"
+  (setq agenda-personal '("~/my-life/org" "~/my-life/org/hackasoton")
+        agenda-work '("~/my-life/org/projects/cc")
+        agenda-focuses '("~/my-life/org/focuses"))
+  (setq org-agenda-custom-commands '(
+    ("a" "Personal and work todos"
+    ((agenda "")
+      (alltodo ""))
+    ((org-agenda-files
+      (append agenda-personal agenda-work))))
+    ("p" "Personal todos"
       ((agenda "")
-       (alltodo "")))))
+       (alltodo ""))
+      ((org-agenda-files agenda-personal)))
+    ("w" "Work related todos"
+     ((agenda "")
+      (alltodo ""))
+     ((org-agenda-files agenda-work)))
+    ("f" "Todos in focuses directory"
+      ((alltodo ""))
+      ((org-agenda-files agenda-focuses)))
+    ))
   ;; Configure custom capture templates
   (setq org-capture-templates
         `(;; Note the backtick here, it's required so that the defvar based tempaltes will work!
@@ -519,10 +530,10 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("/home/pringon/my-life/org/inbox.org" "/home/pringon/my-life/org/systematic-improvement.org")))
+    ("/home/pringon/my-life/org/articles/aurora-serverless/aurora-serverless.org" "/home/pringon/my-life/org/projects/arbuckle.org" "/home/pringon/my-life/org/projects/windwaker.org" "/home/pringon/my-life/org/psych/free-will-vs-determinism.org" "/home/pringon/my-life/org/adult.org" "/home/pringon/my-life/org/inbox.org" "/home/pringon/my-life/org/script.org" "/home/pringon/my-life/org/systematic-improvement.org")))
  '(package-selected-packages
    (quote
-    (omnisharp csharp-mode toml-mode racer flycheck-rust cargo rust-mode ox-gfm stickyfunc-enhance helm-gtags helm-cscope xcscope ggtags dap-mode bui counsel-gtags counsel swiper ivy vmd-mode mmm-mode markdown-toc gh-md yapfify web-beautify utop tuareg caml tide typescript-mode seeing-is-believing rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe rbenv rake pytest pyenv-mode py-isort prettier-js pippel pipenv pyvenv pip-requirements ocp-indent ob-elixir nodejs-repl mvn minitest meghanada maven-test-mode lsp-ui lsp-treemacs lsp-python-ms lsp-java livid-mode skewer-mode simple-httpd live-py-mode json-navigator hierarchy json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc importmagic epc ctable concurrent deferred helm-pydoc helm-lsp lsp-mode markdown-mode groovy-mode groovy-imports pcache gradle-mode git-gutter-fringe+ fringe-helper git-gutter+ git-commit with-editor transient flycheck-pos-tip pos-tip flycheck-ocaml merlin flycheck-mix flycheck-credo emojify emoji-cheat-sheet-plus dune cython-mode company-tern dash-functional tern company-emoji company-anaconda chruby bundler inf-ruby browse-at-remote blacken anaconda-mode pythonic alchemist elixir-mode company-terraform terraform-mode hcl-mode yaml-mode yasnippet-snippets org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-cliplink org-brain htmlize helm-org-rifle helm-org helm-company helm-c-yasnippet gnuplot fuzzy evil-org company auto-yasnippet yasnippet ac-ispell auto-complete ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil treemacs ht pfuture toc-org symon symbol-overlay string-inflection spaceline-all-the-icons all-the-icons memoize spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode password-generator paradox spinner overseer org-bullets open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile projectile helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck pkg-info epl let-alist flycheck-elsa flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state iedit evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens smartparens paredit evil-args evil-anzu anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump f dash s devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy helm-core popup which-key use-package pcre2el org-plus-contrib hydra lv hybrid-mode font-lock+ evil goto-chg undo-tree dotenv-mode diminish bind-map bind-key async))))
+    (flycheck-ledger evil-ledger ledger-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode counsel-css company-web web-completion-data company-reftex company-auctex auctex import-js grizzl impatient-mode add-node-modules-path omnisharp csharp-mode toml-mode racer flycheck-rust cargo rust-mode ox-gfm stickyfunc-enhance helm-gtags helm-cscope xcscope ggtags dap-mode bui counsel-gtags counsel swiper ivy vmd-mode mmm-mode markdown-toc gh-md yapfify web-beautify utop tuareg caml tide typescript-mode seeing-is-believing rvm ruby-tools ruby-test-mode ruby-refactor ruby-hash-syntax rubocopfmt rubocop rspec-mode robe rbenv rake pytest pyenv-mode py-isort prettier-js pippel pipenv pyvenv pip-requirements ocp-indent ob-elixir nodejs-repl mvn minitest meghanada maven-test-mode lsp-ui lsp-treemacs lsp-python-ms lsp-java livid-mode skewer-mode simple-httpd live-py-mode json-navigator hierarchy json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc importmagic epc ctable concurrent deferred helm-pydoc helm-lsp lsp-mode markdown-mode groovy-mode groovy-imports pcache gradle-mode git-gutter-fringe+ fringe-helper git-gutter+ git-commit with-editor transient flycheck-pos-tip pos-tip flycheck-ocaml merlin flycheck-mix flycheck-credo emojify emoji-cheat-sheet-plus dune cython-mode company-tern dash-functional tern company-emoji company-anaconda chruby bundler inf-ruby browse-at-remote blacken anaconda-mode pythonic alchemist elixir-mode company-terraform terraform-mode hcl-mode yaml-mode yasnippet-snippets org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download org-cliplink org-brain htmlize helm-org-rifle helm-org helm-company helm-c-yasnippet gnuplot fuzzy evil-org company auto-yasnippet yasnippet ac-ispell auto-complete ws-butler writeroom-mode visual-fill-column winum volatile-highlights vi-tilde-fringe uuidgen treemacs-projectile treemacs-persp treemacs-icons-dired treemacs-evil treemacs ht pfuture toc-org symon symbol-overlay string-inflection spaceline-all-the-icons all-the-icons memoize spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode password-generator paradox spinner overseer org-bullets open-junk-file nameless move-text macrostep lorem-ipsum link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-xref helm-themes helm-swoop helm-purpose window-purpose imenu-list helm-projectile projectile helm-mode-manager helm-make helm-ls-git helm-flx helm-descbinds helm-ag google-translate golden-ratio flycheck-package package-lint flycheck pkg-info epl let-alist flycheck-elsa flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state iedit evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens smartparens paredit evil-args evil-anzu anzu eval-sexp-fu elisp-slime-nav editorconfig dumb-jump f dash s devdocs define-word column-enforce-mode clean-aindent-mode centered-cursor-mode auto-highlight-symbol auto-compile packed aggressive-indent ace-window ace-link ace-jump-helm-line helm avy helm-core popup which-key use-package pcre2el org-plus-contrib hydra lv hybrid-mode font-lock+ evil goto-chg undo-tree dotenv-mode diminish bind-map bind-key async))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
