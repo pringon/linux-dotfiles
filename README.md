@@ -8,16 +8,11 @@ Drop dotfiles using `stow .`
 
 ## Requirements
 
-- **terminal** urxvt:
-  - devicons: awesome-terminal-fonts
+- Fonts:
+  - Hack
+  - Noto Color Emoji
 - neovim:
   - plug
-  - nvim (npm package)
 - i3
-  - the script suspend.sh to be located in ~/bin
-  - `rofi` must be installed
-- Bumblebee-status requires:
-  - FontAwesome
-  - python-tk
-  - python-psutil
-  - python-netifaces
+  - polybar
+  - rofi
