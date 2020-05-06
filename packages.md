@@ -2,7 +2,6 @@
 
 - stow
 - imagemagick
-- scrot
 - i3-gaps
 - rofi
 - neovim
@@ -10,19 +9,15 @@
 - rxvt-unicode
 - plug
 - tree
-- qutebrowser
+- brave
 - git
 - jq
 - lightdm
 - lightdm-gtk-greeter
-- alsa
+- alsa-lib
 - pulseaudio
 - pavucontrol
 - openssh
 - neofetch
 - networkmanager
 - htop
-
-- python-tk
-- python-psutil
-- python-netifaces
