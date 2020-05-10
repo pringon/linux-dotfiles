@@ -28,6 +28,11 @@ set $mod Mod4
 
 # set us keyboard layout
 exec --no-startup-id setxkbmap us -option caps:swapescape
+
+# Start emacs daemon
+exec --no-startup-id emacs --daemon
+
+# Refresh polybar state when refreshing I3 config
 exec_always ~/.config/polybar/launch.sh
 
 # use these keys for focus, movement, and resize directions when reaching for

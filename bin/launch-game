@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+case $1 in
+  battle.net)
+    nohup playonlinux --run "Battle.net Launcher"
+    ;;
+  *)
+    echo "Usage: launch-game APP"
+    echo "Available apps are:"
+    echo -e "\tbattle.net"
+    exit 1
+esac

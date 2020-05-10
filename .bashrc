@@ -49,6 +49,8 @@ alias vim='nvim'
 
 # Add user written scripts to path
 export PATH="$PATH:~/bin"
+# Add doom-emacs binaries to path
+export PATH="$PATH:~/.emacs.d/bin"
 # Add pip packages to path
 export PATH="$PATH:~/.local/bin"
 # Add go to path.
