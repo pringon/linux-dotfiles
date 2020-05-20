@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+set -euo pipefail
+
 case $1 in
   battle.net)
     nohup playonlinux --run "Battle.net Launcher"

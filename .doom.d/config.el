@@ -53,20 +53,28 @@
 ;; they are implemented.
 
 (after! org
-  ;; My TODO workflow
-  (setq org-todo-keywords '((sequence "TODO" "RESEARCH" "|" "DONE" "WONTFIX")))
+  ;; My TODOs workflow
+  (setq org-todo-keywords '((sequence "RESEARCH" "TODO" "BLOCKED" "|" "DONE" "WONTFIX")))
+  ;; Keybinding to copy/paste links to org files/headlines
+  (global-set-key (kbd "C-c l") 'org-store-link)
+  (global-set-key (kbd "C-c C-l") 'org-insert-link)
   ;; Sets of agenda files that I use for different purposes
   (setq agenda-personal '("~/my-life/org" "~/my-life/org/hackasoton") agenda-work '("~/my-life/org/projects/cc") agenda-focuses
                                                                                       '("~/my-life/org/focuses"))
   ;; Views for the different types of TODOs I store
-  (setq org-agenda-custom-commands '(("a" "Personal and work todos" ((agenda "")
-                                                                     (alltodo ""))
-                                      ((org-agenda-files (append agenda-personal agenda-work))))
-                                     ("p" "Personal todos" ((agenda "")
-                                                            (alltodo ""))
+  (setq org-agenda-custom-commands '(("p" "Personal todos" ((agenda "")
+                                                            (todo "TODO|RESEARCH"
+                                                                  ((org-agenda-skip-function
+                                                                    '(org-agenda-skip-entry-if
+                                                                      'timestamp))))
+                                                            (todo "BLOCKED"))
                                       ((org-agenda-files agenda-personal)))
                                      ("w" "Work related todos" ((agenda "")
-                                                                (alltodo ""))
+                                                                (todo "TODO|RESEARCH"
+                                                                      ((org-agenda-skip-function
+                                                                        '(org-agenda-skip-entry-if
+                                                                          'timestamp))))
+                                                                (todo "BLOCKED"))
                                       ((org-agenda-files agenda-work)))
                                      ("f" "Todos in focuses directory" ((alltodo ""))
                                       ((org-agenda-files agenda-focuses)))))

@@ -14,13 +14,6 @@ shopt -s histappend
 
 PS1='\[\033[0;32m\]\[\033[0m\033[0;32m\]\u@\h \[\033[0;36m\]\w\[\033[0;32m\]$(__git_ps1)\n\[\033[0;32m\]└─\[\033[0m\033[0;32m\] \$\[\033[0m\033[0;32m\] ▶\[\033[0m\] '
 
-# enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-  alias ls='ls --color=auto'
-  alias ll='ls -halp --color=auto'
-fi
-
 # Set Vim as default editor.
 export VISUAL=nvim
 export EDITOR=nvim
@@ -43,9 +36,12 @@ elif [ -r /etc/bash_completion.d/git-prompt ]; then
     source /etc/bash_completion.d/git-prompt
 fi
 
-
+# Utility aliases
 alias pip='pip3'
 alias vim='nvim'
+alias ls='ls --color=auto'
+alias ll='ls -halp --color=auto'
+alias run-pg='docker run --rm -d -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres'
 
 # Add user written scripts to path
 export PATH="$PATH:~/bin"
@@ -66,3 +62,4 @@ eval "`fnm env --multi`"
 
 # Add GPG key
 export GPG_TTY=$(tty)
+

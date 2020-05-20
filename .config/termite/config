@@ -3,5 +3,5 @@ font = Noto Color Emoji 15
 font = Hack 15
 
 [colors]
-background = rgba(27, 25, 24, 0.8)
+background = rgba(27, 25, 24, 0.95)
 foreground = #00cc00
