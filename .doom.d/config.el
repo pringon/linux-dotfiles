@@ -85,7 +85,7 @@
                                  :prepend t)
                                 ("t" "Thought" entry (file+headline "~/my-life/org/inbox.org"
                                                                     "Thoughts")
-                                 "** TODO %^{Task Description}\n"
+                                 "** RESEARCH %^{Task Description}\n"
                                  :prepend t))))
 ;; Set ledger-mode extension
 (add-to-list 'auto-mode-alist '("\\.dat\\'" . ledger-mode))
