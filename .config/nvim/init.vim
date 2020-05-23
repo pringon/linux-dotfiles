@@ -1,18 +1,10 @@
 call plug#begin('~/.vim/plugged')
 
-let rplugin = {}
-function! rplugin.do(info)
-  UpdateRemotePlugins
-endfunction
-
 Plug 'crusoexia/vim-monokai'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'scrooloose/nerdtree'
-" For async completion
-Plug 'Shougo/deoplete.nvim', rplugin
-" For Denite features
-Plug 'Shougo/denite.nvim'
+Plug 'tpope/vim-commentary'
 call plug#end()
 
 
