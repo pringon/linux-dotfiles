@@ -49,7 +49,7 @@ type = internal/date
 ; Seconds to sleep before updates
 interval = 1.0
 ; Show current date and time
-date = %H:%M:%S %Y-%m-%d %Z 
+date = %H:%M:%S <%a> %Y-%m-%d(%Z)
 
 [module/i3]
 type = internal/i3
