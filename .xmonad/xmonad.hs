@@ -11,7 +11,6 @@ import XMonad.Util.SpawnOnce
 
 import qualified XMonad.StackSet as W
 
-import XMonad.Layout.Gaps
 import XMonad.Layout.Spacing
 import XMonad.Layout.NoBorders
 import qualified XMonad.Layout.Fullscreen as Fullscreen
@@ -118,7 +117,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- Restart xmonad
     , ((modm              , xK_q     ), spawn "xmonad --recompile && xmonad --restart\
-                                              \&& notify-send -t 1000 \"Xmonad updated!\"")
+                                              \&& notify-send -t 2000 \"Xmonad updated!\"")
 
     -- Power mode
     , ((modm             , xK_p     ), notifyPowerModeOptions)
@@ -254,10 +253,9 @@ main = do
         , keys               = myKeys
         , mouseBindings      = myMouseBindings
         -- hooks, layouts
-        , layoutHook         = screenGaps . windowGaps . avoidStruts $ myLayout
+        , layoutHook         = windowGaps . avoidStruts $ myLayout
         , logHook            = dynamicLogWithPP (myLogHook dbus)
         , startupHook        = myStartupHook
         }
     where
-        screenGaps = gaps [(U, 20), (L, 5), (R, 5), (D, 0)]
-        windowGaps = spacingRaw True (Border 0 0 0 10) True (Border 0 10 10 0) True
+        windowGaps = spacingRaw True (Border 0 0 0 0) False (Border 0 5 5 0) True
