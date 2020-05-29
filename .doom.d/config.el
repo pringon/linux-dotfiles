@@ -55,6 +55,11 @@
 (after! org
   ;; My TODOs workflow
   (setq org-todo-keywords '((sequence "RESEARCH" "TODO" "BLOCKED" "|" "DONE" "WONTFIX")))
+  ;; Allow up to 100 new lines in an emphasis (*this thing*) block
+  (setcar (nthcdr 4 org-emphasis-regexp-components) 1000)
+  ;; Compute the emphasis regexp components. This saves us of having to re-define the
+  ;; variable before org is loaded
+  (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
   ;; Keybinding to copy/paste links to org files/headlines
   (global-set-key (kbd "C-c l") 'org-store-link)
   (global-set-key (kbd "C-c C-l") 'org-insert-link)
