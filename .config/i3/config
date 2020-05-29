@@ -26,16 +26,20 @@ gaps outer 5
 # set mod key
 set $mod Mod4
 
-# set us keyboard layout
+# Move escape key to the home row in place of caps lock
 exec --no-startup-id setxkbmap us -option caps:swapescape
-
-# Start emacs daemon
-exec --no-startup-id emacs --daemon
 # Start notification daemon
 exec --no-startup-id dunst
-
+# Start compositor
+exec --no-startup-id picom
+# Restore wallpaper
+exec --no-startup-id nitrogen --restore
 # Refresh polybar state when refreshing I3 config
-exec_always ~/.config/polybar/launch.sh
+exec_always ~/.config/polybar/launch-i3.sh
+# Reduce blue light
+exec --no-startup-id redshift -O 4500
+# Start emacs daemon
+exec --no-startup-id emacs --daemon
 
 # use these keys for focus, movement, and resize directions when reaching for
 # the arrows is not convenient
@@ -53,11 +57,6 @@ bindsym $mod+Return exec termite
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# start comtpon
-exec --no-startup-id compton
-
-# set wallpaper
-exec --no-startup-id nitrogen --restore
 
 # start rofi (a program launcher)
 bindsym $mod+d exec --no-startup-id sleep 0.1 && rofi -show combi -config $HOME/.config/i3/rofi.conf 
