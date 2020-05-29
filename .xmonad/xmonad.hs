@@ -8,7 +8,6 @@
 import XMonad
 import XMonad.Actions.Submap
 import XMonad.Util.SpawnOnce
-import XMonad.Util.Run(spawnPipe)
 
 import qualified XMonad.StackSet as W
 
@@ -23,7 +22,6 @@ import XMonad.Hooks.ManageDocks
 
 import qualified Data.Map        as M
 
-import System.IO
 import qualified DBus as D
 import qualified DBus.Client as D
 import qualified Codec.Binary.UTF8.String as UTF8
@@ -49,29 +47,8 @@ myBorderWidth :: Dimension
 myBorderWidth   = 2
 
 -----------------
---- KEYBINDINGS
+--- BINDINGS
 -----------------
-myModMask :: KeyMask
-myModMask       = mod4Mask
-
-notifyPowerModeOptions :: X ()
-notifyPowerModeOptions = do
-  spawn $ "notify-send --expire-time=1000 \"Power Mode\" \"" ++ powerModeNotificationBody ++ "\""
-  submap powerModeOptions
-  where
-    powerModeNotificationBody = "The following options are available\n\
-                                \Lock: Mod + L\n\
-                                \Reboot: Mod + R\n\
-                                \Exit: Mod + E\n\
-                                \Suspend: Mod + S\n\
-                                \Shutdown: Mod + Shift + S\n\
-                                \Cancel: Esc"
-    powerModeOptions = M.fromList $ [((0         , xK_l),     spawn "$HOME/.config/i3/scripts/lock.sh")
-                                    ,((0         , xK_r),     spawn "reboot")
-                                    ,((0         , xK_e),     spawn "kill -9 -1")
-                                    ,((0         , xK_s),     spawn "$HOME/.config/i3/scripts/suspend.sh")
-                                    ,((shiftMask , xK_space), spawn "shutdown")
-                                    ]
 
 myKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
@@ -166,10 +143,28 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
         | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
 
+myModMask :: KeyMask
+myModMask       = mod4Mask
 
-------------------------------------------------------------------------
--- Mouse bindings: default actions bound to mouse events
---
+notifyPowerModeOptions :: X ()
+notifyPowerModeOptions = do
+  spawn $ "notify-send --expire-time=1000 \"Power Mode\" \"" ++ powerModeNotificationBody ++ "\""
+  submap powerModeOptions
+  where
+    powerModeNotificationBody = "The following options are available\n\
+                                \Lock: Mod + L\n\
+                                \Reboot: Mod + R\n\
+                                \Exit: Mod + E\n\
+                                \Suspend: Mod + S\n\
+                                \Shutdown: Mod + Shift + S\n\
+                                \Cancel: Esc"
+    powerModeOptions = M.fromList $ [((0         , xK_l),     spawn "$HOME/.config/i3/scripts/lock.sh")
+                                    ,((0         , xK_r),     spawn "reboot")
+                                    ,((0         , xK_e),     spawn "kill -9 -1")
+                                    ,((0         , xK_s),     spawn "$HOME/.config/i3/scripts/suspend.sh")
+                                    ,((shiftMask , xK_space), spawn "shutdown")
+                                    ]
+
 myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- mod-button1, Set the window to floating mode and move by dragging
@@ -186,23 +181,11 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
     -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
 
-------------------------------------------------------------------------
--- Layouts:
 
--- You can specify and transform your layouts by modifying these values.
--- If you change layout bindings be sure to use 'mod-shift-space' after
--- restarting (with 'mod-q') to reset your layout state to the new
--- defaults, as xmonad preserves your old layout settings by default.
---
--- * NOTE: XMonad.Hooks.EwmhDesktops users must remove the obsolete
--- ewmhDesktopsLayout modifier from layoutHook. It no longer exists.
--- Instead use the 'ewmh' function from that module to modify your
--- defaultConfig as a whole. (See also logHook, handleEventHook, and
--- startupHook ewmh notes.)
---
--- The available layouts.  Note that each layout is separated by |||,
--- which denotes layout choice.
---
+---------------
+--- LAYOUTS
+---------------
+
 myLayout = tiled ||| Mirror tiled ||| fullscreen
   where
     -- default tiling algorithm partitions the screen into two panes
@@ -219,6 +202,24 @@ myLayout = tiled ||| Mirror tiled ||| fullscreen
     delta   = 3/100
 
 
+------------
+-- INIT
+--------------
+
+myStartupHook = do
+  spawnOnce "setxkbmap us -option caps:swapescape"
+  spawnOnce "xset r rate 200"
+  spawnOnce "polybar -c ~/.config/polybar/config xmonad-status -r &"
+  spawnOnce "picom &"
+  spawnOnce "trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --transparent true --tint 0x191970 --height 12 &"
+  spawnOnce "nitrogen --restore &"
+  spawnOnce "emacs --daemon"
+
+
+-----------------------------------
+-- STATUS BAR STUFF (DBUS related)
+-----------------------------------
+
 myLogHook :: D.Client -> PP
 myLogHook dbus = def { ppOutput = dbusOutput dbus }
 
@@ -229,77 +230,33 @@ dbusOutput dbus str = do
             D.signalBody = [D.toVariant $ UTF8.decodeString str]
         }
     D.emit dbus signal
-  where
-    objectPath = D.objectPath_ "/org/xmonad/Log"
-    interfaceName = D.interfaceName_ "org.xmonad.Log"
-    memberName = D.memberName_ "Update"
+    where
+        objectPath = D.objectPath_ "/org/xmonad/Log"
+        interfaceName = D.interfaceName_ "org.xmonad.Log"
+        memberName = D.memberName_ "Update"
 
-------------------------------------------------------------------------
--- Window rules:
 
--- Execute arbitrary actions and WindowSet manipulations when managing
--- a new window. You can use this to, for example, always float a
--- particular program, or have a client always appear on a particular
--- workspace.
---
--- To find the property name associated with a program, use
--- > xprop | grep WM_CLASS
--- and click on the client you're interested in.
---
--- To match on the WM_NAME, you can use 'title' in the same way that
--- 'className' and 'resource' are used below.
-myManageHook = mempty
-------------------------------------------------------------------------
--- Event handling
-
--- Defines a custom handler function for X Events. The function should
--- return (All True) if the default handler is to be run afterwards. To
--- combine event hooks use mappend or mconcat from Data.Monoid.
---
--- * NOTE: EwmhDesktops users should use the 'ewmh' function from
--- XMonad.Hooks.EwmhDesktops to modify their defaultConfig as a whole.
--- It will add EWMH event handling to your custom event hooks by
--- combining them with ewmhDesktopsEventHook.
---
-myEventHook = mempty
-
-myStartupHook = do
-  -- Move escape key to the home row in place of caps lock
-  spawnOnce "setxkbmap us -option caps:swapescape"
-  spawnOnce "polybar -c ~/.config/polybar/config xmonad-status -r &"
-  spawnOnce "picom &"
-  spawnOnce "trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --transparent true --tint 0x191970 --height 12 &"
-  spawnOnce "nitrogen --restore &"
-  spawnOnce "emacs --daemon"
-
-------------------------------------------------------------------------
--- Now run xmonad with all the defaults we set up.
-
--- Run xmonad with the settings you specify. No need to modify this.
---
 main = do
     dbus <- D.connectSession
     -- Request access to the DBus name
-    D.requestName dbus (D.busName_ "org.xmonad.Log")
+    _ <- D.requestName dbus (D.busName_ "org.xmonad.Log")
         [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
-  xmonad . ewmh . Fullscreen.fullscreenSupport . docks $ def
-    { terminal           = myTerminal
-    , focusFollowsMouse  = myFocusFollowsMouse
-    , borderWidth        = myBorderWidth
-    , modMask            = myModMask
-    , workspaces         = myWorkspaces
-    , normalBorderColor  = myNormalBorderColor
-    , focusedBorderColor = myFocusedBorderColor
-      -- key bindings
-    , keys               = myKeys
-    , mouseBindings      = myMouseBindings
-      -- hooks, layouts
-    , layoutHook         = screenGaps . windowGaps . avoidStruts $ myLayout
-    , manageHook         = myManageHook
-    , handleEventHook    = myEventHook
-    , logHook            = dynamicLogWithPP (myLogHook dbus)
-    , startupHook        = myStartupHook
-    }
+    xmonad . ewmh . Fullscreen.fullscreenSupport . docks $ def
+        { terminal           = myTerminal
+        , focusFollowsMouse  = myFocusFollowsMouse
+        , borderWidth        = myBorderWidth
+        , modMask            = myModMask
+        , workspaces         = myWorkspaces
+        , normalBorderColor  = myNormalBorderColor
+        , focusedBorderColor = myFocusedBorderColor
+        -- key bindings
+        , keys               = myKeys
+        , mouseBindings      = myMouseBindings
+        -- hooks, layouts
+        , layoutHook         = screenGaps . windowGaps . avoidStruts $ myLayout
+        , logHook            = dynamicLogWithPP (myLogHook dbus)
+        , startupHook        = myStartupHook
+        }
     where
-      screenGaps = gaps [(U, 20), (L, 10), (R, 10), (D, 10)]
-      windowGaps = spacingRaw True (Border 10 0 0 10) True (Border 0 10 20 0) True
+        screenGaps = gaps [(U, 20), (L, 5), (R, 5), (D, 0)]
+        windowGaps = spacingRaw True (Border 0 0 0 10) True (Border 0 10 10 0) True
