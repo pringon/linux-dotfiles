@@ -22,10 +22,11 @@ export EDITOR=nvim
 source /usr/share/git/git-prompt.sh
 
 # Utility aliases
-alias pip='pip3'
-alias vim='nvim'
 alias ls='ls --color=auto'
 alias ll='ls -halp --color=auto'
+alias cat='bat'
+alias vim='nvim'
+alias pip='pip3'
 alias run-pg='docker run --rm -d -p ${1:-5432}:5432 -e POSTGRES_PASSWORD=postgres postgres'
 
 # Add user written scripts to path
@@ -42,7 +43,7 @@ export PATH="${PATH}:${HOME}/.gem/ruby/2.7.0/bin"
 export PATH="${PATH}:${HOME}/.fnm"
 # This command causes fnm to create a new temporary environment
 # for the current shell
-eval "`fnm env`"
+eval "`fnm env --multi`"
 
 source ~/.fzf.bash
 
