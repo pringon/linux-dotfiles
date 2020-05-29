@@ -117,7 +117,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
 
     -- Restart xmonad
-    , ((modm              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
+    , ((modm              , xK_q     ), spawn "xmonad --recompile && xmonad --restart\
+                                              \&& notify-send -t 1000 \"Xmonad updated!\"")
 
     -- Power mode
     , ((modm             , xK_p     ), notifyPowerModeOptions)
