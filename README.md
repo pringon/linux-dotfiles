@@ -13,6 +13,8 @@ Drop dotfiles using `stow .`
   - Noto Color Emoji
 - neovim:
   - plug
-- i3
+- xmonad
+  - picom
   - polybar
   - rofi
+  - nitrogen
