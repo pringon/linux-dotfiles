@@ -25,105 +25,89 @@ import qualified DBus as D
 import qualified DBus.Client as D
 import qualified Codec.Binary.UTF8.String as UTF8
 
-myTerminal :: String
-myTerminal      = "termite"
+main :: IO ()
+main = do
+    dbus <- D.connectSession
+    -- Request access to the DBus name
+    _ <- D.requestName dbus (D.busName_ "org.xmonad.Log")
+        [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
+    xmonad . ewmh . Fullscreen.fullscreenSupport . docks $ def
+        { terminal           = "termite"
+        , workspaces         = myWorkspaces
+        , modMask            = mod4Mask
+        , normalBorderColor  = "#dddddd"
+        , focusedBorderColor = "#d92a07"
+        , borderWidth        = 2
+        -- Whether focus follows the mouse pointer.
+        , focusFollowsMouse  = True
+        -- key bindings
+        , keys               = myKeys
+        , mouseBindings      = myMouseBindings
+        -- hooks, layouts
+        , layoutHook         = windowGaps . avoidStruts $ myLayout
+        , logHook            = dynamicLogWithPP (myLogHook dbus)
+        , startupHook        = myStartupHook
+        }
+    where
+        windowGaps = spacingRaw True (Border 0 0 0 0) False (Border 0 5 5 0) True
+        myWorkspaces = ["1: 💻","2: 📖","3","4","5","6","7","8: 🧑🧑","9: 🎵"]
 
-myWorkspaces :: [String]
-myWorkspaces    = ["1: 💻","2: 📖","3","4","5","6","7","8: 🧑🧑","9: 🎵"]
-
--- Whether focus follows the mouse pointer.
-myFocusFollowsMouse :: Bool
-myFocusFollowsMouse = True
-
--- BORDER
-myNormalBorderColor :: String
-myNormalBorderColor  = "#dddddd"
-
-myFocusedBorderColor :: String
-myFocusedBorderColor = "#d92a07"
-
-myBorderWidth :: Dimension
-myBorderWidth   = 2
 
 -----------------
---- BINDINGS
+--- KEY BINDINGS
 -----------------
-
 myKeys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
-
-    -- launch a terminal
-    [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
-
-    -- launch dmenu
+    -- terminal
+    [ ((modm .|. shiftMask, xK_Return ), spawn $ XMonad.terminal conf)
+    -- application launcher
     , ((modm              ,  xK_d     ), spawn "rofi -show combi -config $HOME/.config/i3/rofi.conf")
-
     -- close focused window
-    , ((modm .|. shiftMask, xK_q     ), kill)
-
+    , ((modm .|. shiftMask, xK_q      ), kill)
      -- Rotate through the available layout algorithms
-    , ((modm,               xK_space ), sendMessage NextLayout)
-
+    , ((modm,               xK_space  ), sendMessage NextLayout)
     --  Reset the layouts on the current workspace to default
-    , ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
-
+    , ((modm .|. shiftMask, xK_space  ), setLayout $ XMonad.layoutHook conf)
     -- Resize viewed windows to the correct size
-    , ((modm,               xK_n     ), refresh)
-
+    , ((modm,               xK_n      ), refresh)
     -- Move focus to the next window
-    , ((modm,               xK_Tab   ), windows W.focusDown)
-
+    , ((modm,               xK_Tab    ), windows W.focusDown)
     -- Move focus to the next window
-    , ((modm,               xK_j     ), windows W.focusDown)
-
+    , ((modm,               xK_j      ), windows W.focusDown)
     -- Move focus to the previous window
-    , ((modm,               xK_k     ), windows W.focusUp  )
-
+    , ((modm,               xK_k      ), windows W.focusUp  )
     -- Move focus to the master window
-    , ((modm,               xK_m     ), windows W.focusMaster  )
-
+    , ((modm,               xK_m      ), windows W.focusMaster  )
     -- Swap the focused window and the master window
-    , ((modm              , xK_Return), windows W.swapMaster)
-
+    , ((modm              , xK_Return ), windows W.swapMaster)
     -- Swap the focused window with the next window
-    , ((modm .|. shiftMask, xK_j     ), windows W.swapDown  )
-
+    , ((modm .|. shiftMask, xK_j      ), windows W.swapDown  )
     -- Swap the focused window with the previous window
-    , ((modm .|. shiftMask, xK_k     ), windows W.swapUp    )
-
+    , ((modm .|. shiftMask, xK_k      ), windows W.swapUp    )
     -- Shrink the master area
-    , ((modm,               xK_h     ), sendMessage Shrink)
-
+    , ((modm,               xK_h      ), sendMessage Shrink)
     -- Expand the master area
-    , ((modm,               xK_l     ), sendMessage Expand)
-
+    , ((modm,               xK_l      ), sendMessage Expand)
     -- Push window back into tiling
-    , ((modm,               xK_t     ), withFocused $ windows . W.sink)
-
+    , ((modm,               xK_t      ), withFocused $ windows . W.sink)
     -- Increment the number of windows in the master area
-    , ((modm              , xK_comma ), sendMessage (IncMasterN 1))
-
+    , ((modm              , xK_comma  ), sendMessage (IncMasterN 1))
     -- Deincrement the number of windows in the master area
-    , ((modm              , xK_period), sendMessage (IncMasterN (-1)))
-
-    -- Toggle the status bar gap
-    -- Use this binding with avoidStruts from Hooks.ManageDocks.
-    -- See also the statusBar function from Hooks.DynamicLog.
-    --
-    , ((modm              , xK_b     ), sendMessage ToggleStruts)
-
-    -- Quit xmonad
-    -- , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
-
-    -- Restart xmonad
-    , ((modm              , xK_q     ), spawn "xmonad --recompile && xmonad --restart\
+    , ((modm              , xK_period ), sendMessage (IncMasterN (-1)))
+    -- Recompile and reload xmonad config
+    , ((modm              , xK_q      ), spawn "xmonad --recompile && xmonad --restart\
                                               \&& notify-send -t 2000 \"Xmonad updated!\"")
-
+    -- Volume control
+    -- XF86AudioRaiseVolume
+    , ((0                , 0x1008ff13), spawn "pactl -- set-sink-volume 0 +5%")
+    -- XF86AudioLowerVolume
+    , ((0                , 0x1008ff11), spawn "pactl -- set-sink-volume 0 -5%")
+    -- XF86AudioMute
+    , ((0                , 0x1008ff12), spawn "pactl set-sink-mute 0 toggle")
     -- Power mode
-    , ((modm             , xK_p     ), notifyPowerModeOptions)
+    , ((modm             , xK_p      ), notifyPowerModeOptions)
     ]
     ++
-
     --
     -- mod-[1..9], Switch to workspace N
     --
@@ -134,7 +118,6 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
         | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
         , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
     ++
-
     --
     -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
     -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
@@ -142,9 +125,6 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
         | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
-
-myModMask :: KeyMask
-myModMask       = mod4Mask
 
 notifyPowerModeOptions :: X ()
 notifyPowerModeOptions = do
@@ -158,26 +138,27 @@ notifyPowerModeOptions = do
                                 \Suspend: Mod + S\n\
                                 \Shutdown: Mod + Shift + S\n\
                                 \Cancel: Esc"
-    powerModeOptions = M.fromList $ [((0         , xK_l),     spawn "$HOME/.config/i3/scripts/lock.sh")
-                                    ,((0         , xK_r),     spawn "reboot")
-                                    ,((0         , xK_e),     spawn "kill -9 -1")
-                                    ,((0         , xK_s),     spawn "$HOME/.config/i3/scripts/suspend.sh")
-                                    ,((shiftMask , xK_space), spawn "shutdown")
-                                    ]
+    powerModeOptions = M.fromList [((0         , xK_l),     spawn "$HOME/.config/i3/scripts/lock.sh")
+                                  ,((0         , xK_r),     spawn "reboot")
+                                  ,((0         , xK_e),     spawn "kill -9 -1")
+                                  ,((0         , xK_s),     spawn "$HOME/.config/i3/scripts/suspend.sh")
+                                  ,((shiftMask , xK_space), spawn "shutdown")
+                                  ]
 
-myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 
+------------------
+-- MOUSE BINDINGS
+------------------
+myMouseBindings :: XConfig l -> M.Map (KeyMask, Button) (Window -> X ())
+myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList
     -- mod-button1, Set the window to floating mode and move by dragging
-    [ ((modm, button1), (\w -> focus w >> mouseMoveWindow w
+    [((modm, button1), (\w -> focus w >> mouseMoveWindow w
                                        >> windows W.shiftMaster))
-
     -- mod-button2, Raise the window to the top of the stack
     , ((modm, button2), (\w -> focus w >> windows W.shiftMaster))
-
     -- mod-button3, Set the window to floating mode and resize by dragging
     , ((modm, button3), (\w -> focus w >> mouseResizeWindow w
                                        >> windows W.shiftMaster))
-
     -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
 
@@ -185,7 +166,6 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
 ---------------
 --- LAYOUTS
 ---------------
-
 myLayout = tiled ||| Mirror tiled ||| fullscreen
   where
     -- default tiling algorithm partitions the screen into two panes
@@ -205,13 +185,13 @@ myLayout = tiled ||| Mirror tiled ||| fullscreen
 ------------
 -- INIT
 --------------
-
+myStartupHook :: X ()
 myStartupHook = do
   spawnOnce "setxkbmap us -option caps:swapescape"
   spawnOnce "xset r rate 200"
   spawnOnce "polybar -c ~/.config/polybar/config xmonad-status -r &"
+  -- Start compositor
   spawnOnce "picom &"
-  spawnOnce "trayer --edge top --align right --SetDockType true --SetPartialStrut true --expand true --width 10 --transparent true --tint 0x191970 --height 12 &"
   spawnOnce "nitrogen --restore &"
   spawnOnce "emacs --daemon"
 
@@ -234,28 +214,3 @@ dbusOutput dbus str = do
         objectPath = D.objectPath_ "/org/xmonad/Log"
         interfaceName = D.interfaceName_ "org.xmonad.Log"
         memberName = D.memberName_ "Update"
-
-
-main = do
-    dbus <- D.connectSession
-    -- Request access to the DBus name
-    _ <- D.requestName dbus (D.busName_ "org.xmonad.Log")
-        [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
-    xmonad . ewmh . Fullscreen.fullscreenSupport . docks $ def
-        { terminal           = myTerminal
-        , focusFollowsMouse  = myFocusFollowsMouse
-        , borderWidth        = myBorderWidth
-        , modMask            = myModMask
-        , workspaces         = myWorkspaces
-        , normalBorderColor  = myNormalBorderColor
-        , focusedBorderColor = myFocusedBorderColor
-        -- key bindings
-        , keys               = myKeys
-        , mouseBindings      = myMouseBindings
-        -- hooks, layouts
-        , layoutHook         = windowGaps . avoidStruts $ myLayout
-        , logHook            = dynamicLogWithPP (myLogHook dbus)
-        , startupHook        = myStartupHook
-        }
-    where
-        windowGaps = spacingRaw True (Border 0 0 0 0) False (Border 0 5 5 0) True
