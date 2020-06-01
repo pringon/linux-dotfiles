@@ -5,7 +5,6 @@ import (
        "bufio"
        "os"
        "time"
-       "strconv"
 )
 
 type UserEvent int
@@ -13,9 +12,6 @@ const (
        PAUSE UserEvent = iota
        EXIT
 )
-
-var countdownFinished = false
-var countdownPaused = false
 
 func main() {
        // Run the entire program within another function because
@@ -31,7 +27,7 @@ func bootstrap() (int, error) {
        var targetSeconds int
        if len(os.Args) > 1 {
               var err error
-              targetSeconds, err = targetTime(os.Args[1])
+              targetSeconds, err = TargetTime(os.Args[1])
               if err != nil {
                      fmt.Println("%s is not a valid number!", os.Args[1])
                      os.Exit(1)
@@ -50,56 +46,33 @@ func bootstrap() (int, error) {
        }
        defer RestoreTerminalDiscipline(termios)
 
-       go countdown(targetSeconds, count)
+       timer := NewTimer()
+       go countdown(timer, targetSeconds, count)
        go takeInput(events)
-       rawPrintln("Press `q` to exit or `p` to pause.")
+       RawPrintln("Press `q` to exit or `p` to pause.")
        // Keep program going while goroutines are exeuting
        for {
-              if countdownFinished {
+              if timer.HasFinished() {
                      return 0, nil
               }
 
               select {
               case elapsed := <-count:
-                     timePanel(targetSeconds, elapsed)
+                     TimePanel(targetSeconds, elapsed)
               case event := <-events:
+                     // If a timer tick came in at the same time process that first
                      if len(count) > 0 {
                             elapsed := <- count
-                            timePanel(targetSeconds, elapsed)
+                            TimePanel(targetSeconds, elapsed)
                      }
                      switch event {
                      case PAUSE:
-                            countdownPaused = !countdownPaused
+                            timer.TogglePaused()
                      case EXIT:
                             return 0, nil
                      }
               }
        }
-}
-
-func timePanel(target int, elapsed int) {
-       rawPrintln(fmt.Sprintf("Target: %s", formatTime(target)))
-       rawPrintln(fmt.Sprintf("Current: %s", formatTime(elapsed)))
-}
-
-// When running in raw mode \n does not get expandend to \n\r
-func rawPrintln(str string) {
-       fmt.Printf("%s\n\r", str)
-}
-
-func formatTime(seconds int) string {
-       if seconds < 0 {
-              return "NaN"
-       }
-       return fmt.Sprintf("%d:%d", seconds / 60, seconds % 60)
-}
-
-func targetTime(input string) (int, error) {
-       userInput, err := strconv.Atoi(os.Args[1])
-       if err != nil {
-              return -1, err
-       }
-       return 60 * userInput, nil
 }
 
 func takeInput(events chan<- UserEvent) {
@@ -121,14 +94,14 @@ func takeInput(events chan<- UserEvent) {
        }
 }
 
-func countdown(targetSeconds int, count chan<- int) {
+func countdown(timer Timer, targetSeconds int, count chan<- int) {
        secondsElapsed := 0
 
        for true {
-              for countdownPaused {}
+              for timer.IsPaused() {}
               if targetSeconds == secondsElapsed {
-                     rawPrintln("Countdown finished.")
-                     countdownFinished = true
+                     RawPrintln("Countdown finished.")
+                     timer.SetFinished()
               }
               count <- secondsElapsed
               secondsElapsed++
