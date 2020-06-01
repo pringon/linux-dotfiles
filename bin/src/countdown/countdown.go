@@ -89,7 +89,7 @@ func takeInput(events chan<- UserEvent) {
               case 'p':
                      events <- PAUSE
               default:
-                     fmt.Println("Press `q` to exit or `p` to pause.\n")
+                     RawPrintln("Press `q` to exit or `p` to pause.")
               }
        }
 }

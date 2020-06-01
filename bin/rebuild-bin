@@ -1,0 +1,18 @@
+#!/bin/sh
+# This script rebuilds all the user maintained binaries
+# it is assumed that all scripts are in working condition
+# at the point of running this command and that the binaries
+# directory is located at ~/bin.
+#
+# If the binary folder is located anywhere else prepend the path
+# to this command like so: `BIN_PATH="~/location/bin" rebuild-bin`.
+
+set -e
+
+bin_path=${BIN_PATH:-"${HOME}/bin"}
+work_dir=$(pwd)
+
+cd ${bin_path}/src/countdown
+go build -o ${bin_path}/countdown .
+
+cd $work_dir
