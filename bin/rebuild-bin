@@ -1,5 +1,5 @@
 #!/bin/sh
-# This script rebuilds all the user maintained binaries
+# This script rebuilds all the user maintained binaries,
 # it is assumed that all scripts are in working condition
 # at the point of running this command and that the binaries
 # directory is located at ~/bin.
@@ -13,6 +13,8 @@ bin_path=${BIN_PATH:-"${HOME}/bin"}
 work_dir=$(pwd)
 
 cd ${bin_path}/src/countdown
-go build -o ${bin_path}/countdown .
+# Using full path to go binary because Xmonad does not have the
+# correct path loaded for it
+/usr/local/go/bin/go build -o ${bin_path}/countdown .
 
 cd $work_dir

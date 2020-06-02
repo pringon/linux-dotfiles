@@ -61,7 +61,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- terminal
     [ ((modm .|. shiftMask, xK_Return ), spawn $ XMonad.terminal conf)
     -- application launcher
-    , ((modm              ,  xK_d     ), spawn "rofi -show combi -config $HOME/.config/i3/rofi.conf")
+    , ((modm              ,  xK_d     ), spawn "rofi -show combi -config ./.config/i3/rofi.conf")
     -- close focused window
     , ((modm .|. shiftMask, xK_q      ), kill)
      -- Rotate through the available layout algorithms
@@ -95,8 +95,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Deincrement the number of windows in the master area
     , ((modm              , xK_period ), sendMessage (IncMasterN (-1)))
     -- Recompile and reload xmonad config
-    , ((modm              , xK_q      ), spawn "xmonad --recompile && xmonad --restart\
-                                              \&& notify-send -t 2000 \"Xmonad updated!\"")
+    , ((modm              , xK_q      ), notifyRebuildModeOptions)
     -- Volume control
     -- XF86AudioRaiseVolume
     , ((0                , 0x1008ff13), spawn "pactl -- set-sink-volume 0 +5%")
@@ -128,23 +127,36 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
 notifyPowerModeOptions :: X ()
 notifyPowerModeOptions = do
-  spawn $ "notify-send --expire-time=1000 \"Power Mode\" \"" ++ powerModeNotificationBody ++ "\""
+  spawn $ "notify-send -t 2000 \"Power Mode\" \"" ++ powerModeNotificationBody ++ "\""
   submap powerModeOptions
   where
     powerModeNotificationBody = "The following options are available\n\
-                                \Lock: Mod + L\n\
-                                \Reboot: Mod + R\n\
-                                \Exit: Mod + E\n\
-                                \Suspend: Mod + S\n\
-                                \Shutdown: Mod + Shift + S\n\
+                                \Lock: L\n\
+                                \Reboot: R\n\
+                                \Exit: E\n\
+                                \Suspend: S\n\
+                                \Shutdown: Shift + S\n\
                                 \Cancel: Esc"
-    powerModeOptions = M.fromList [((0         , xK_l),     spawn "$HOME/.config/i3/scripts/lock.sh")
-                                  ,((0         , xK_r),     spawn "reboot")
-                                  ,((0         , xK_e),     spawn "kill -9 -1")
-                                  ,((0         , xK_s),     spawn "$HOME/.config/i3/scripts/suspend.sh")
-                                  ,((shiftMask , xK_space), spawn "shutdown")
+    powerModeOptions = M.fromList [((0        , xK_l),     spawn "./.config/i3/scripts/lock.sh")
+                                  ,((0        , xK_r),     spawn "reboot")
+                                  ,((0        , xK_e),     spawn "kill -9 -1")
+                                  ,((0        , xK_s),     spawn "./.config/i3/scripts/suspend.sh")
+                                  ,((shiftMask, xK_space), spawn "shutdown")
                                   ]
 
+notifyRebuildModeOptions :: X ()
+notifyRebuildModeOptions = do
+  spawn $ "notify-send -t 2000 \"Rebuild Mode\" \"" ++ rebuildModeNotificationBody ++ "\""
+  submap rebuildModeOptions
+  where
+    rebuildModeNotificationBody = "The folowing options are available\n\
+                                  \WM: W\n\
+                                  \Binaries: B\n\
+                                  \Cancel: Esc"
+    rebuildModeOptions = M.fromList [((0, xK_w), spawn "xmonad --recompile && xmonad --restart\
+                                                       \&& notify-send -t 2000 \"Xmonad updated\"")
+                                    ,((0, xK_b), spawn "./bin/rebuild-bin && notify-send -t 2000 \"Binaries rebuilt\"")
+                                    ]
 
 ------------------
 -- MOUSE BINDINGS
@@ -188,7 +200,7 @@ myLayout = tiled ||| Mirror tiled ||| fullscreen
 myStartupHook :: X ()
 myStartupHook = do
   spawnOnce "setxkbmap us -option caps:swapescape"
-  spawnOnce "xset r rate 200"
+  spawnOnce "xset r rate 300"
   spawnOnce "polybar -c ~/.config/polybar/config xmonad-status -r &"
   -- Start compositor
   spawnOnce "picom &"
