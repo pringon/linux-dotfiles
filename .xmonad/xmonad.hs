@@ -31,7 +31,7 @@ main = do
     -- Request access to the DBus name
     _ <- D.requestName dbus (D.busName_ "org.xmonad.Log")
         [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
-    xmonad . ewmh . Fullscreen.fullscreenSupport . docks $ def
+    xmonad . ewmh . docks $ def
         { terminal           = "termite"
         , workspaces         = myWorkspaces
         , modMask            = mod4Mask
@@ -44,9 +44,11 @@ main = do
         , keys               = myKeys
         , mouseBindings      = myMouseBindings
         -- hooks, layouts
-        , layoutHook         = windowGaps . avoidStruts $ myLayout
+        , layoutHook         = windowGaps $ avoidStruts myLayout
         , logHook            = dynamicLogWithPP (myLogHook dbus)
         , startupHook        = myStartupHook
+        , manageHook         = Fullscreen.fullscreenManageHook
+        , handleEventHook    = Fullscreen.fullscreenEventHook
         }
     where
         windowGaps = spacingRaw True (Border 0 0 0 0) False (Border 0 5 5 0) True
@@ -96,6 +98,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm              , xK_period ), sendMessage (IncMasterN (-1)))
     -- Recompile and reload xmonad config
     , ((modm              , xK_q      ), notifyRebuildModeOptions)
+    , ((modm              , xK_b     ), sendMessage ToggleStruts)
     -- Volume control
     -- XF86AudioRaiseVolume
     , ((0                , 0x1008ff13), spawn "pactl -- set-sink-volume 0 +5%")
@@ -137,11 +140,11 @@ notifyPowerModeOptions = do
                                 \Suspend: S\n\
                                 \Shutdown: Shift + S\n\
                                 \Cancel: Esc"
-    powerModeOptions = M.fromList [((0        , xK_l),     spawn "./.config/i3/scripts/lock.sh")
-                                  ,((0        , xK_r),     spawn "reboot")
-                                  ,((0        , xK_e),     spawn "kill -9 -1")
-                                  ,((0        , xK_s),     spawn "./.config/i3/scripts/suspend.sh")
-                                  ,((shiftMask, xK_space), spawn "shutdown")
+    powerModeOptions = M.fromList [((0        , xK_l), spawn "./.config/i3/scripts/lock.sh")
+                                  ,((0        , xK_r), spawn "reboot")
+                                  ,((0        , xK_e), spawn "kill -9 -1")
+                                  ,((0        , xK_s), spawn "./.config/i3/scripts/suspend.sh")
+                                  ,((shiftMask, xK_s), spawn "shutdown")
                                   ]
 
 notifyRebuildModeOptions :: X ()
@@ -182,7 +185,7 @@ myLayout = tiled ||| Mirror tiled ||| fullscreen
   where
     -- default tiling algorithm partitions the screen into two panes
     tiled      = Tall nmaster delta ratio
-    fullscreen = noBorders Full
+    fullscreen = Fullscreen.fullscreenFull $ noBorders Full
 
     -- The default number of windows in the master pane
     nmaster = 1
@@ -201,6 +204,7 @@ myStartupHook :: X ()
 myStartupHook = do
   spawnOnce "setxkbmap us -option caps:swapescape"
   spawnOnce "xset r rate 300"
+  spawnOnce "redshift -O 4500"
   spawnOnce "polybar -c ~/.config/polybar/config xmonad-status -r &"
   -- Start compositor
   spawnOnce "picom &"
