@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+set -e
+
+# Source my utility secrets
+. ~/.dan-env
+
+cd `mktemp -d`
+curl -OL $DAN_GOOGLE_ICAL
+~/bin/ical2org basic.ics > ~/my-life/org/google-calendar.org
