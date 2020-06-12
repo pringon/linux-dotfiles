@@ -23,20 +23,21 @@ source /usr/share/git/git-prompt.sh
 
 # Utility aliases
 alias ls='ls --color=auto'
-alias ll='ls -halp --color=auto'
+alias ll='ls -hl --color=auto'
+alias la='ls -hal --color=auto'
 alias cat='bat'
 alias vim='nvim'
 alias pip='pip3'
-alias run-pg='docker run --rm -d -p ${1:-5432}:5432 -e POSTGRES_PASSWORD=postgres postgres'
 
 # Add user written scripts to path
-export PATH="$PATH:${HOME}/bin"
+export PATH="${PATH}:${HOME}/bin"
 # Add doom-emacs binaries to path
-export PATH="$PATH:${HOME}/.emacs.d/bin"
+export PATH="${PATH}:${HOME}/.emacs.d/bin"
 # Add pip packages to path
-export PATH="$PATH:${HOME}/.local/bin"
+export PATH="${PATH}:${HOME}/.local/bin"
 # Add go to path.
-export PATH="$PATH:/usr/local/go/bin"
+export PATH="${PATH}:/usr/local/go/bin"
+export GOPATH="${HOME}/dev/go"
 # Add ruby to path.
 export PATH="${PATH}:${HOME}/.gem/ruby/2.7.0/bin"
 # Add fnm to path.
