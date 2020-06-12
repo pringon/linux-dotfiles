@@ -157,8 +157,7 @@ notifyRebuildModeOptions = do
                                   \WM: W\n\
                                   \Binaries: B\n\
                                   \Cancel: Esc"
-    rebuildModeOptions = M.fromList [((0, xK_w), spawn "xmonad --recompile && xmonad --restart\
-                                                       \&& notify-send -t 2000 \"Xmonad updated\"")
+    rebuildModeOptions = M.fromList [((0, xK_w), spawn "./bin/rebuild-xmonad")
                                     ,((0, xK_b), spawn "./bin/rebuild-bin && notify-send -t 2000 \"Binaries rebuilt\"")
                                     ]
 
