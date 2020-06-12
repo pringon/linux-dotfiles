@@ -13,6 +13,7 @@ import qualified XMonad.StackSet as W
 
 import XMonad.Layout.Spacing
 import XMonad.Layout.NoBorders
+import XMonad.Layout.Reflect
 import qualified XMonad.Layout.Fullscreen as Fullscreen
 
 import XMonad.Hooks.DynamicLog
@@ -181,7 +182,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList
 ---------------
 --- LAYOUTS
 ---------------
-myLayout = tiled ||| Mirror tiled ||| fullscreen
+myLayout = (reflectHoriz tiled) ||| Mirror tiled ||| fullscreen
   where
     -- default tiling algorithm partitions the screen into two panes
     tiled      = Tall nmaster delta ratio
@@ -204,7 +205,7 @@ myStartupHook :: X ()
 myStartupHook = do
   spawnOnce "setxkbmap us -option caps:swapescape"
   spawnOnce "xset r rate 300"
-  spawnOnce "redshift -O 4500"
+  spawnOnce "redshift -O 3000"
   spawnOnce "polybar -c ~/.config/polybar/config xmonad-status -r &"
   -- Start compositor
   spawnOnce "picom &"
