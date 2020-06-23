@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+# Devour terminal when opening another application
+# Depends on https://github.com/baskerville/xdo
+# Script copied from https://github.com/salman-abedin/devour
+
+id=$(xdo id)
+xdo hide
+$("$@") > /dev/null 2>&1
+xdo show "$id"

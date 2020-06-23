@@ -59,7 +59,7 @@ bindsym $mod+Shift+q kill
 
 
 # start rofi (a program launcher)
-bindsym $mod+d exec --no-startup-id sleep 0.1 && rofi -show combi -config $HOME/.config/i3/rofi.conf 
+bindsym $mod+d exec --no-startup-id sleep 0.1 && rofi -show combi -config $HOME/.config/rofi/i3-launcher.conf 
 
 # change focus
 bindsym $mod+$left focus left

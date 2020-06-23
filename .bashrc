@@ -19,15 +19,16 @@ export VISUAL=nvim
 export EDITOR=nvim
 
 # Enable git prompt support
-source /usr/share/git/git-prompt.sh
+. /usr/share/git/git-prompt.sh
 
 # Utility aliases
 alias ls='ls --color=auto'
-alias ll='ls -hl --color=auto'
-alias la='ls -hal --color=auto'
+alias ll='ls -hlp --color=auto'
+alias la='ls -halp --color=auto'
 alias cat='bat'
 alias vim='nvim'
-alias pip='pip3'
+alias sxiv='devour sxiv'
+alias mpv='devour mpv'
 
 # Add user written scripts to path
 export PATH="${PATH}:${HOME}/bin"
@@ -44,9 +45,9 @@ export PATH="${PATH}:${HOME}/.gem/ruby/2.7.0/bin"
 export PATH="${PATH}:${HOME}/.fnm"
 # This command causes fnm to create a new temporary environment
 # for the current shell
-eval "`fnm env --multi`"
+eval "$(fnm env --multi)"
 
-source ~/.fzf.bash
+. ~/.fzf.bash
 
 # Add GPG key
 export GPG_TTY=$(tty)

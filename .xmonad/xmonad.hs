@@ -15,6 +15,7 @@ import XMonad.Layout.Spacing
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Reflect
 import qualified XMonad.Layout.Fullscreen as Fullscreen
+import XMonad.Layout.ThreeColumns
 
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
@@ -64,11 +65,13 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- terminal
     [ ((modm .|. shiftMask, xK_Return ), spawn $ XMonad.terminal conf)
     -- application launcher
-    , ((modm              ,  xK_d     ), spawn "rofi -show combi -config ./.config/i3/rofi.conf")
+    , ((modm              ,  xK_d     ), spawn "rofi -show drun -config ./.config/rofi/color-scheme.conf")
+    -- search through open windows
+    , ((modm              ,  xK_s     ), spawn "rofi -show window -config ./.config/rofi/color-scheme.conf")
     -- close focused window
     , ((modm .|. shiftMask, xK_q      ), kill)
      -- Rotate through the available layout algorithms
-    , ((modm,               xK_space  ), sendMessage NextLayout)
+    , ((modm              , xK_space  ), sendMessage NextLayout)
     --  Reset the layouts on the current workspace to default
     , ((modm .|. shiftMask, xK_space  ), setLayout $ XMonad.layoutHook conf)
     -- Resize viewed windows to the correct size
@@ -181,10 +184,13 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList
 ---------------
 --- LAYOUTS
 ---------------
-myLayout = (reflectHoriz tiled) ||| Mirror tiled ||| fullscreen
+myLayout = tiled ||| threeCol ||| fullscreen
   where
-    -- default tiling algorithm partitions the screen into two panes
-    tiled      = Tall nmaster delta ratio
+    -- Split the screen into two columns, one master and one slave
+    tiled      = reflectHoriz $ Tall nmaster delta ratio
+    -- Split the screen into three segments (one master and two slaves)
+    -- The master is in the centre
+    threeCol   = reflectHoriz $ ThreeColMid nmaster delta ratio
     fullscreen = Fullscreen.fullscreenFull $ noBorders Full
 
     -- The default number of windows in the master pane

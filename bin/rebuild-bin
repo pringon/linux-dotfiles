@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env sh
 # This script rebuilds all the user maintained binaries,
 # it is assumed that all scripts are in working condition
 # at the point of running this command and that the binaries
