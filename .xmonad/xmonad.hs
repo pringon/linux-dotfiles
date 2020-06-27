@@ -148,7 +148,7 @@ notifyPowerModeOptions = do
                                   ,((0        , xK_r), spawn "reboot")
                                   ,((0        , xK_e), spawn "kill -9 -1")
                                   ,((0        , xK_s), spawn "./.config/i3/scripts/suspend.sh")
-                                  ,((shiftMask, xK_s), spawn "shutdown")
+                                  ,((shiftMask, xK_s), spawn "poweroff")
                                   ]
 
 notifyRebuildModeOptions :: X ()
@@ -184,10 +184,10 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList
 ---------------
 --- LAYOUTS
 ---------------
-myLayout = tiled ||| threeCol ||| fullscreen
+myLayout = (reflectHoriz tiled) ||| (Mirror tiled) ||| threeCol ||| fullscreen
   where
     -- Split the screen into two columns, one master and one slave
-    tiled      = reflectHoriz $ Tall nmaster delta ratio
+    tiled      = Tall nmaster delta ratio
     -- Split the screen into three segments (one master and two slaves)
     -- The master is in the centre
     threeCol   = reflectHoriz $ ThreeColMid nmaster delta ratio
@@ -208,7 +208,7 @@ myLayout = tiled ||| threeCol ||| fullscreen
 --------------
 myStartupHook :: X ()
 myStartupHook = do
-  spawnOnce "setxkbmap us -option caps:swapescape"
+  spawnOnce "setxkbmap gb -option caps:swapescape"
   spawnOnce "xset r rate 300"
   spawnOnce "redshift -O 3000"
   spawnOnce "polybar -c ~/.config/polybar/config xmonad-status -r &"
