@@ -56,16 +56,15 @@
        ;;rotate-text       ; cycle region at point between text candidates
        snippets   ; my elves. They type so I don't have to
        ;;word-wrap         ; soft wrapping with language-aware indent
-       :emacs dired      ; making dired pretty [functional]
-       electric          ; smarter, keyword-based electric-indent
+       :emacs dired  ; making dired pretty [functional]
+       electric      ; smarter, keyword-based electric-indent
        ;;ibuffer         ; interactive buffer management
-       undo              ; persistent, smarter undo for your inevitable mistakes
-       vc                ; version-control and Emacs, sitting in a tree
-       :term
+       undo          ; persistent, smarter undo for your inevitable mistakes
+       vc            ; version-control and Emacs, sitting in a tree
+       :term vterm   ; the best terminal emulation in Emacs
        ;;eshell            ; the elisp shell that works everywhere
        ;;shell             ; simple shell REPL for Emacs
        ;;term              ; basic terminal emulator for Emacs
-       ;;vterm             ; the best terminal emulation in Emacs
        :checkers syntax              ; tasing you for every semicolon you forget
        ;;spell                         ; tasing you for misspelling mispelling
        ;;grammar                       ; tasing grammar mistake every you make

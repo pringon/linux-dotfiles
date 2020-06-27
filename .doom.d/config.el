@@ -20,6 +20,9 @@
 ;; font string. You generally only need these two:
 (setq doom-font (font-spec :family "Hack"
                            :size 14))
+(setq doom-unicode-font (font-spec :family "Noto Color Emoji"
+                                   :size 14))
+
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -53,19 +56,20 @@
 ;; they are implemented.
 
 (after! org
-  ;; My TODOs workflow
-  (setq org-todo-keywords '((sequence "RESEARCH" "TODO" "BLOCKED" "|" "DONE" "WONTFIX")))
+  ;; Export to docx by default instead of libreoffice format
+  (setq org-odt-preferred-output-format "docx")
+  ;; Keybinding to copy/paste links to org files/headlines
+  (global-set-key (kbd "C-c l") 'org-store-link)
+  (global-set-key (kbd "C-c C-l") 'org-insert-link)
   ;; Allow up to 100 new lines in an emphasis (*this thing*) block
   (setcar (nthcdr 4 org-emphasis-regexp-components) 1000)
   ;; Compute the emphasis regexp components. This saves us of having to re-define the
   ;; variable before org is loaded
   (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
-  ;; Keybinding to copy/paste links to org files/headlines
-  (global-set-key (kbd "C-c l") 'org-store-link)
-  (global-set-key (kbd "C-c C-l") 'org-insert-link)
+  ;; My TODOs workflow
+  (setq org-todo-keywords '((sequence "RESEARCH" "TODO" "BLOCKED" "|" "DONE" "WONTFIX")))
   ;; Sets of agenda files that I use for different purposes
-  (setq agenda-personal '("~/my-life/org" "~/my-life/org/hackasoton") agenda-work '("~/my-life/org/projects/cc") agenda-focuses
-                                                                                      '("~/my-life/org/focuses"))
+  (setq agenda-personal '("~/my-life/org" "~/my-life/org/hackasoton") agenda-focuses '("~/my-life/org/focuses"))
   ;; Views for the different types of TODOs I store
   (setq org-agenda-custom-commands '(("p" "Personal todos" ((agenda "")
                                                             (todo "TODO|RESEARCH"
@@ -74,13 +78,6 @@
                                                                       'timestamp))))
                                                             (todo "BLOCKED"))
                                       ((org-agenda-files agenda-personal)))
-                                     ("w" "Work related todos" ((agenda "")
-                                                                (todo "TODO|RESEARCH"
-                                                                      ((org-agenda-skip-function
-                                                                        '(org-agenda-skip-entry-if
-                                                                          'timestamp))))
-                                                                (todo "BLOCKED"))
-                                      ((org-agenda-files agenda-work)))
                                      ("f" "Todos in focuses directory" ((alltodo ""))
                                       ((org-agenda-files agenda-focuses)))))
   ;; Org capture templates to help me capture my thoughts  efficiently
