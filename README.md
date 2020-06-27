@@ -18,6 +18,9 @@ Drop dotfiles using `stow .`
   - polybar
   - rofi
   - nitrogen
+  - i3lock
+  - scrot
+  - imagemagick
 
 Some scripts require a `.dan-env` that holds certain secrets
 I don't want to publish to github. You can find an example file
