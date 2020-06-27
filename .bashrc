@@ -27,6 +27,8 @@ alias ll='ls -hlp --color=auto'
 alias la='ls -halp --color=auto'
 alias cat='bat'
 alias vim='nvim'
+alias evince='devour evince'
+alias libreoffice='devour libreoffice'
 alias sxiv='devour sxiv'
 alias mpv='devour mpv'
 
