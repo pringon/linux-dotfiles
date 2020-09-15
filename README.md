@@ -33,3 +33,7 @@ The following cronjobs need to be set up for your current user:
 ```
 */15 * * * * ~/bin/sync-google-calendar
 ```
+As well as the following cronjobs for the root user:
+```
+*/15 * * * * timedatectl set-timezone $(curl https://ipapi.co/timezone)
+```
