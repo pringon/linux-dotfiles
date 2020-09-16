@@ -144,7 +144,7 @@ notifyPowerModeOptions = do
                                 \Suspend: S\n\
                                 \Shutdown: Shift + S\n\
                                 \Cancel: Esc"
-    powerModeOptions = M.fromList [((0        , xK_l), spawn "./.config/i3/scripts/lock.sh")
+    powerModeOptions = M.fromList [((0        , xK_l), spawn "./bin/lock")
                                   ,((0        , xK_r), spawn "reboot")
                                   ,((0        , xK_e), spawn "kill -9 -1")
                                   ,((0        , xK_s), spawn "./.config/i3/scripts/suspend.sh")
