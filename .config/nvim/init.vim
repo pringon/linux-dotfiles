@@ -15,6 +15,9 @@ autocmd FileType nerdtree setlocal number
 "enable deoplete at startup
 let g:deoplete#enable_at_startup = 1
 
+"copy to system clipboard (`+` regsiter) by default
+set clipboard=unnamedplus
+
 filetype plugin indent on
 
 syntax on
