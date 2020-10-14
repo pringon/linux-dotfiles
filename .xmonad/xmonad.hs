@@ -68,6 +68,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm              ,  xK_d     ), spawn "rofi -show drun -config ./.config/rofi/color-scheme.conf")
     -- search through open windows
     , ((modm              ,  xK_s     ), spawn "rofi -show window -config ./.config/rofi/color-scheme.conf")
+    , ((modm              ,  xK_c     ), spawn "rofi -show calc -modi calc -no-show-match -no-sort -config ./.config/rofi/color-scheme.conf")
     -- close focused window
     , ((modm .|. shiftMask, xK_q      ), kill)
      -- Rotate through the available layout algorithms
