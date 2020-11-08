@@ -47,3 +47,5 @@ if command -v devour > /dev/null 2>&1; then
   alias sxiv='devour sxiv'
   alias mpv='devour mpv'
 fi
+alias restart-bar='devour restart-polybar'
+alias failed="systemctl --failed"
