@@ -46,6 +46,8 @@ if command -v devour > /dev/null 2>&1; then
   alias libreoffice='devour libreoffice'
   alias sxiv='devour sxiv'
   alias mpv='devour mpv'
+  alias emacs='devour emacs'
+  alias code='devour code'
+  alias restart-bar='devour restart-polybar'
 fi
-alias restart-bar='devour restart-polybar'
 alias failed="systemctl --failed"
